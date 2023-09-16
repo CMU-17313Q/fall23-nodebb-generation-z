@@ -145,6 +145,14 @@ module.exports = function (Topics) {
                     postObj.user.username = validator.escape(String(postObj.handle));
                     postObj.user.displayname = postObj.user.username;
                 }
+                if (postObj.selfPost === false && postObj.isAnonymous === "true") {
+                    postObj.user = {
+                        username: "anon",
+                        displayname: "anon",
+                        isAnonymous: postObj.isAnonymous
+                    }
+                    postObj.uid = -1
+                }
             }
         });
 
@@ -321,7 +329,7 @@ module.exports = function (Topics) {
 
         const uniquePids = _.uniq(_.flatten(arrayOfReplyPids));
 
-        let replyData = await posts.getPostsFields(uniquePids, ['pid', 'uid', 'timestamp']);
+        let replyData = await posts.getPostsFields(uniquePids, ['pid', 'uid', 'isAnonymous', 'timestamp']);
         const result = await plugins.hooks.fire('filter:topics.getPostReplies', {
             uid: callerUid,
             replies: replyData,
@@ -353,8 +361,10 @@ module.exports = function (Topics) {
             replyPids.forEach((replyPid) => {
                 const replyData = pidMap[replyPid];
                 if (!uidsUsed[replyData.uid] && currentData.users.length < 6) {
-                    currentData.users.push(uidMap[replyData.uid]);
-                    uidsUsed[replyData.uid] = true;
+                    if (replyData.isAnonymous !== "true") {
+                        currentData.users.push(uidMap[replyData.uid]);
+                        uidsUsed[replyData.uid] = true;
+                    }
                 }
             });
 
