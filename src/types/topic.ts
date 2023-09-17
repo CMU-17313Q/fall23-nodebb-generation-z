@@ -18,6 +18,7 @@ export type TopicObjectCoreProperties = {
   unreplied: boolean;
   icons: string[];
   endorsed: boolean;
+  type: string;
 };
 
 export type TopicObjectOptionalProperties = {
