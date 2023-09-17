@@ -7,12 +7,12 @@ const categories = require('../categories');
 const utils = require('../utils');
 const translator = require('../translator');
 const plugins = require('../plugins');
-
+// added the endorsed attribute to the front end
 const intFields = [
     'tid', 'cid', 'uid', 'mainPid', 'postcount',
     'viewcount', 'postercount', 'deleted', 'locked', 'pinned',
     'pinExpiry', 'timestamp', 'upvotes', 'downvotes', 'lastposttime',
-    'deleterUid',
+    'deleterUid', 'endorsed',
 ];
 
 module.exports = function (Topics) {
