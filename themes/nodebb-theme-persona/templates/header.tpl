@@ -11,7 +11,24 @@
         var app = {
             user: JSON.parse('{{userJSON}}')
         };
+
+        // Listening for the event click of the endorse button
+        document.addEventListener('click', function (event) {
+            const target = event.target;
+            if (target.classList.contains('endorsement-button')) {
+                const postId = target.getAttribute('data-post-id');
+                const post = ajaxify.dataset.findPostbyPid(postId);
+                post.endorsement = true;
+                const endorsementText = document.createElement('p');
+                endorsementText.textContent = 'This response has been endorsed';
+                const container = document.getElementbyId("endorsement-section")
+                endorsementText.className = 'endorsement-text';
+                container.appendChild(endorsementText);
+            }
+        });
+
     </script>
+    
 
     {{{if useCustomHTML}}}
     {{customHTML}}

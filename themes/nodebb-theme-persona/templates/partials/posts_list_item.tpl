@@ -20,6 +20,8 @@
         {{{ end }}}
         {{{ end }}}
 
+        
+
         <div class="post-info">
             <a href="{config.relative_path}/user/{../user.userslug}">{buildAvatar(../user, "md", true, "user-img not-responsive")}</a>
 
