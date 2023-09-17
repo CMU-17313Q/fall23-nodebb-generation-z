@@ -20,7 +20,7 @@ module.exports = function (Posts) {
         const timestamp = data.timestamp || Date.now();
         const isMain = data.isMain || false;
         const options = data.selectedGroup;
-        //console.log(options);
+        // console.log(options);
 
         if (!uid && parseInt(uid, 10) !== 0) {
             throw new Error('[[error:invalid-uid]]');
