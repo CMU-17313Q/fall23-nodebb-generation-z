@@ -62,6 +62,7 @@ define('forum/topic/posts', [
             post.display_delete_tools = (ajaxify.data.privileges['posts:delete'] && post.selfPost) || ajaxify.data.privileges.isAdminOrMod;
             post.display_moderator_tools = post.display_edit_tools || post.display_delete_tools;
             post.display_move_tools = ajaxify.data.privileges.isAdminOrMod;
+            console.log(posts);
             post.display_post_menu = ajaxify.data.privileges.isAdminOrMod ||
                 (post.selfPost && !ajaxify.data.locked && !post.deleted) ||
                 (post.selfPost && post.deleted && parseInt(post.deleterUid, 10) === parseInt(app.user.uid, 10)) ||
@@ -122,6 +123,39 @@ define('forum/topic/posts', [
             });
         });
     }
+
+    // Function to handle the Endorsement Event
+    function handleEndorseButtonClick(postId) {
+        ajaxify.data.endorsePost(postId, function (err) {
+            if (!err) {
+                const postElement = document.getElementById(`post-${postId}`);
+                if (postElement) {
+                    postElement.dataset.endorsed = 'true';
+
+                    // Add a text element indicating endorsement
+                    const endorsementText = document.createElement('p');
+                    endorsementText.textContent = 'This response has been endorsed';
+                    endorsementText.className = 'endorsement-text';
+                    postElement.appendChild(endorsementText);
+                }
+            } else {
+                // display an error message
+                console.error('Error endorsing post:', err);
+            }
+        });
+    }
+
+    // Listening for the event click of the endorse button
+    document.addEventListener('click', function (event) {
+        const target = event.target;
+        if (target.classList.contains('endorse-button')) {
+            const postId = target.getAttribute('data-post-id');
+            if (postId) {
+                handleEndorseButtonClick(postId);
+            }
+        }
+    });
+
 
     function onNewPostInfiniteScroll(data) {
         const direction = (config.topicPostSort === 'oldest_to_newest' || config.topicPostSort === 'most_votes') ? 1 : -1;
