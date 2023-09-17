@@ -3,7 +3,7 @@
 const db = require('../database');
 const plugins = require('../plugins');
 const utils = require('../utils');
-
+// added a new boolean to the data scheme, endorsed_by_Instructor
 const intFields = [
     'uid', 'pid', 'tid', 'deleted', 'timestamp',
     'upvotes', 'downvotes', 'deleterUid', 'edited',

@@ -27,7 +27,7 @@ module.exports = function (Posts) {
             throw new Error('[[error:invalid-pid]]');
         }
 
-        // added a new boolean to the data scheme
+        // added a new boolean to the data scheme, endorsed_by_Instructor
         const pid = await db.incrObjectField('global', 'nextPid');
         let postData = {
             pid: pid,

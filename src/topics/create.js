@@ -21,7 +21,7 @@ module.exports = function (Topics) {
         const timestamp = data.timestamp || Date.now();
 
         const tid = await db.incrObjectField('global', 'nextTid');
-
+        // added the endorsed attribute to the front end
         let topicData = {
             tid: tid,
             uid: data.uid,
