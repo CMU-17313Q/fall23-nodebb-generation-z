@@ -333,33 +333,30 @@ define('forum/topic/postTools', [
         });
     }
 
-    //Ansync Function to help us with the Click of Endorsed
-    async function onEndorseClicked(button, tid){
+    //  Ansync Function to help us with the Click of Endorsed
+    async function onEndorseClicked(button, tid) {
         const selectedNode = await getSelectedNode();
-
         showStaleWarning(async function () {
             let username = await getUserSlug(button);
             if (getData(button, 'data-uid') === '0' || !getData(button, 'data-userslug')) {
                 username = '';
             }
-            
-            //REMOVE LATERRRRR
-            console.log("Endorsed Button clicked");
-            //REMOVE 
-
-            //Update the endorsed_by_Instructor and use the hook to
-            //Fire this action
-            function endorse(text) {
+            const toPid = button.is('[component="post/endorse"]') ? getData(button, 'data-pid') : null;
+            const isQuoteToPid = !toPid || !selectedNode.pid || toPid === selectedNode.pid;
+            if (selectedNode.text && isQuoteToPid) {
+                username = username || selectedNode.username;
+                //  Update the endorsed_by_Instructor and use a hook to
+                //  Fire this action
                 hooks.fire('action:composer.addQuote', {
                     tid: tid,
                     pid: toPid,
-                    username: username,
                     topicName: ajaxify.data.titleRaw,
-                    text: text,
-                    endorsed_by_Instructor: true
+                    username: username,
+                    text: selectedNode.text,
+                    selectedPid: selectedNode.pid,
+                    endorse_by_Instructor: true,
                 });
             }
-            
         });
     }
 

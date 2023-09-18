@@ -12,20 +12,6 @@
             user: JSON.parse('{{userJSON}}')
         };
 
-        //Handling the click event on the Endorse button
-        var endorseButton = document.getElementById("endorseButton");
-        endorse.addEventListener("click", function(event){
-
-            //For Testing ONLY!!!!!!!!!!!!!!!!!!!!!
-            //Prevent the default behaviour of refreshing the page
-            event.preventDefault();
-            //For test purposes
-            alert("Anchor tag clicked!");
-            //Testing Only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-            
-        });
-
     </script>
     
 

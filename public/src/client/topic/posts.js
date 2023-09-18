@@ -124,22 +124,6 @@ define('forum/topic/posts', [
         });
     }
 
-    // Function to handle the Endorsement Event
-    function handleEndorseButtonClick(postId) {
-        ajaxify.data.endorsePost(postId, function (err) {
-            if (!err) {
-                const postElement = document.getElementById(`post-${postId}`);
-                if (postElement) {
-                    //Update the endorsed field in the current post
-                    postElement.dataset.endorsed = 'true';
-                }
-            } else {
-                // display an error message
-                console.error('Error endorsing post:', err);
-            }
-        });
-    }
-
     function onNewPostInfiniteScroll(data) {
         const direction = (config.topicPostSort === 'oldest_to_newest' || config.topicPostSort === 'most_votes') ? 1 : -1;
 
