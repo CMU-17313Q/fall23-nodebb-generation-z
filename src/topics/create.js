@@ -21,7 +21,7 @@ module.exports = function (Topics) {
         const timestamp = data.timestamp || Date.now();
 
         const tid = await db.incrObjectField('global', 'nextTid');
-
+        // added the endorsed attribute to the front end
         let topicData = {
             tid: tid,
             uid: data.uid,
@@ -34,6 +34,7 @@ module.exports = function (Topics) {
             postcount: 0,
             viewcount: 0,
             isAnonymous: data.isAnonymous,
+            endorsed: false,
         };
 
         if (Array.isArray(data.tags) && data.tags.length) {

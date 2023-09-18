@@ -20,7 +20,7 @@ module.exports = function (Posts) {
         const content = data.content.toString();
         const timestamp = data.timestamp || Date.now();
         const isMain = data.isMain || false;
-
+        const type = String(data.type);
         if (!uid && parseInt(uid, 10) !== 0) {
             throw new Error('[[error:invalid-uid]]');
         }
@@ -29,6 +29,7 @@ module.exports = function (Posts) {
             throw new Error('[[error:invalid-pid]]');
         }
 
+        // added a new boolean to the data scheme, endorsed_by_Instructor
         const pid = await db.incrObjectField('global', 'nextPid');
         let postData = {
             pid: pid,
@@ -37,6 +38,8 @@ module.exports = function (Posts) {
             isAnonymous: isAnonymous,
             content: content,
             timestamp: timestamp,
+            endorsed_by_Instructor: false,
+            type: type,
         };
 
         if (data.toPid) {
