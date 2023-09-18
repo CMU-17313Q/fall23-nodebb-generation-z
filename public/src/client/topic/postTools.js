@@ -90,6 +90,11 @@ define('forum/topic/postTools', [
 
         handleSelectionTooltip();
 
+        //  Catch the actual click using the defined function
+        postContainer.on('click', '[component ="post/endorse"]', function () {
+            onEndorseClicked($(this), tid);
+        });
+
         postContainer.on('click', '[component="post/quote"]', function () {
             onQuoteClicked($(this), tid);
         });
@@ -98,7 +103,7 @@ define('forum/topic/postTools', [
             onReplyClicked($(this), tid);
         });
 
-        //Catch the actual click using the defined function
+        //  Catch the actual click using the defined function
         postContainer.on('click', '[component ="post/endorse"]', function () {
             onEndorseClicked($(this), tid);
         });
@@ -106,6 +111,11 @@ define('forum/topic/postTools', [
         $('.topic').on('click', '[component="topic/reply"]', function (e) {
             e.preventDefault();
             onReplyClicked($(this), tid);
+        });
+
+        $('.topic').on('click', '[component="topic/endorse"]', function (e) {
+            e.preventDefault();
+            onEndorseClicked($(this), tid);
         });
 
         $('.topic').on('click', '[component="topic/reply-as-topic"]', function () {
@@ -340,7 +350,7 @@ define('forum/topic/postTools', [
             //Update the endorsed_by_Instructor and use the hook to
             //Fire this action
             function endorse(text) {
-                hooks.fire('action:composer.endorse', {
+                hooks.fire('action:composer.addQuote', {
                     tid: tid,
                     pid: toPid,
                     username: username,
