@@ -12,19 +12,18 @@
             user: JSON.parse('{{userJSON}}')
         };
 
-        // Listening for the event click of the endorse button
-        document.addEventListener('click', function (event) {
-            const target = event.target;
-            if (target.classList.contains('endorsement-button')) {
-                const postId = target.getAttribute('data-post-id');
-                const post = ajaxify.dataset.findPostbyPid(postId);
-                post.endorsement = true;
-                const endorsementText = document.createElement('p');
-                endorsementText.textContent = 'This response has been endorsed';
-                const container = document.getElementbyId("endorsement-section")
-                endorsementText.className = 'endorsement-text';
-                container.appendChild(endorsementText);
-            }
+        //Handling the click event on the Endorse button
+        var endorseButton = document.getElementById("endorseButton");
+        endorse.addEventListener("click", function(event){
+
+            //For Testing ONLY!!!!!!!!!!!!!!!!!!!!!
+            //Prevent the default behaviour of refreshing the page
+            event.preventDefault();
+            //For test purposes
+            alert("Anchor tag clicked!");
+            //Testing Only!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            
         });
 
     </script>

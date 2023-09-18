@@ -130,13 +130,8 @@ define('forum/topic/posts', [
             if (!err) {
                 const postElement = document.getElementById(`post-${postId}`);
                 if (postElement) {
+                    //Update the endorsed field in the current post
                     postElement.dataset.endorsed = 'true';
-
-                    // Add a text element indicating endorsement
-                    const endorsementText = document.createElement('p');
-                    endorsementText.textContent = 'This response has been endorsed';
-                    endorsementText.className = 'endorsement-text';
-                    postElement.appendChild(endorsementText);
                 }
             } else {
                 // display an error message
@@ -144,18 +139,6 @@ define('forum/topic/posts', [
             }
         });
     }
-
-    // Listening for the event click of the endorse button
-    document.addEventListener('click', function (event) {
-        const target = event.target;
-        if (target.classList.contains('endorse-button')) {
-            const postId = target.getAttribute('data-post-id');
-            if (postId) {
-                handleEndorseButtonClick(postId);
-            }
-        }
-    });
-
 
     function onNewPostInfiniteScroll(data) {
         const direction = (config.topicPostSort === 'oldest_to_newest' || config.topicPostSort === 'most_votes') ? 1 : -1;
