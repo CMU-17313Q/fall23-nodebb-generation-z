@@ -98,6 +98,11 @@ define('forum/topic/postTools', [
             onReplyClicked($(this), tid);
         });
 
+        //Catch the actual click using the defined function
+        postContainer.on('click', '[component ="post/endorse"]', function () {
+            onEndorseClicked($(this), tid);
+        });
+
         $('.topic').on('click', '[component="topic/reply"]', function (e) {
             e.preventDefault();
             onReplyClicked($(this), tid);
