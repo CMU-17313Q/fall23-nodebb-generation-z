@@ -19,6 +19,7 @@ module.exports = function (Posts) {
         const content = data.content.toString();
         const timestamp = data.timestamp || Date.now();
         const isMain = data.isMain || false;
+        const type = String(data.type);
         if (!uid && parseInt(uid, 10) !== 0) {
             throw new Error('[[error:invalid-uid]]');
         }
@@ -36,6 +37,7 @@ module.exports = function (Posts) {
             content: content,
             timestamp: timestamp,
             endorsed_by_Instructor: false,
+            type: type,
         };
 
         if (data.toPid) {
