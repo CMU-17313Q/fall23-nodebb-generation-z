@@ -210,15 +210,15 @@ Topics.getTopicWithPosts = async function (topicData, set, uid, start, stop, rev
         topicData.mergedTimestampISO = utils.toISOString(topicData.mergedTimestamp);
     }
 
-    if (topicData.isAnonymous === "true") {
+    if (topicData.isAnonymous === 'true') {
         topicData.user = {
-            username: "anon",
-            displayname: "anon",
-            isAnonymous: topicData.isAnonymous
-        }
-        topicData.uid = -1
+            username: 'anon',
+            displayname: 'anon',
+            isAnonymous: topicData.isAnonymous,
+        };
+        topicData.uid = -1;
     }
-    
+
     topicData.related = related || [];
     topicData.unreplied = topicData.postcount === 1;
     topicData.icons = [];

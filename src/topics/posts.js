@@ -145,13 +145,13 @@ module.exports = function (Topics) {
                     postObj.user.username = validator.escape(String(postObj.handle));
                     postObj.user.displayname = postObj.user.username;
                 }
-                if (postObj.selfPost === false && postObj.isAnonymous === "true") {
+                if (postObj.selfPost === false && postObj.isAnonymous === 'true') {
                     postObj.user = {
-                        username: "anon",
-                        displayname: "anon",
-                        isAnonymous: postObj.isAnonymous
-                    }
-                    postObj.uid = -1
+                        username: 'anon',
+                        displayname: 'anon',
+                        isAnonymous: postObj.isAnonymous,
+                    };
+                    postObj.uid = -1;
                 }
             }
         });
@@ -361,7 +361,7 @@ module.exports = function (Topics) {
             replyPids.forEach((replyPid) => {
                 const replyData = pidMap[replyPid];
                 if (!uidsUsed[replyData.uid] && currentData.users.length < 6) {
-                    if (replyData.isAnonymous !== "true") {
+                    if (replyData.isAnonymous !== 'true') {
                         currentData.users.push(uidMap[replyData.uid]);
                         uidsUsed[replyData.uid] = true;
                     }
