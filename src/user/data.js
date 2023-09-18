@@ -8,6 +8,7 @@ const db = require('../database');
 const meta = require('../meta');
 const plugins = require('../plugins');
 const utils = require('../utils');
+const Groups = require('../groups');
 
 const relative_path = nconf.get('relative_path');
 
@@ -25,7 +26,7 @@ module.exports = function (User) {
         'aboutme', 'signature', 'uploadedpicture', 'profileviews', 'reputation',
         'postcount', 'topiccount', 'lastposttime', 'banned', 'banned:expire',
         'status', 'flags', 'followerCount', 'followingCount', 'cover:url',
-        'cover:position', 'groupTitle', 'mutedUntil', 'mutedReason',
+        'cover:position', 'groupTitle', 'mutedUntil', 'mutedReason', 'groupOptions',
     ];
 
     User.guestData = {
@@ -68,6 +69,8 @@ module.exports = function (User) {
             fields = fields.filter(value => value !== 'password');
         }
 
+
+
         const users = await db.getObjectsFields(uniqueUids.map(uid => `user:${uid}`), fields);
         const result = await plugins.hooks.fire('filter:user.getFields', {
             uids: uniqueUids,
@@ -78,6 +81,11 @@ module.exports = function (User) {
             if (uniqueUids[index] > 0 && !user.uid) {
                 user.oldUid = uniqueUids[index];
             }
+        });
+        result.users.forEach(async (user) => {
+            const groups = await Groups.getUserGroupMembership('groups:visible:createtime', [user.uid]);
+            const modifiedGroups = groups[0].map(group => group.replace(/\s+/g, ''));
+            user.groups = modifiedGroups;
         });
         await modifyUserData(result.users, fields, fieldsToRemove);
         return uidsToUsers(uids, uniqueUids, result.users);
