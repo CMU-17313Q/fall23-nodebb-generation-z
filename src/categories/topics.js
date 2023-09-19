@@ -176,9 +176,9 @@ module.exports = function (Categories) {
                     displayname: 'anon',
                     isAnonymous: topic.isAnonymous,
                 };
-                // comment
+                // if the user selected anonymous then the username and the displayed name will be anon
                 topic.uid = -1;
-                // another comment
+                // the id will also be hidden
             }
         });
     };

@@ -218,7 +218,9 @@ Topics.getTopicWithPosts = async function (topicData, set, uid, start, stop, rev
         };
         topicData.uid = -1;
     }
-
+    //If  isAnonymous it sets the user property to an anonymous user object with a username and display name of 'anon',
+    //and it also sets the uid property to -1 to indicate that this is an anonymous user.
+    
     topicData.related = related || [];
     topicData.unreplied = topicData.postcount === 1;
     topicData.icons = [];

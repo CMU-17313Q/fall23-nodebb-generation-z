@@ -588,6 +588,7 @@ describe('API', async () => {
 
             // Check if the property is neither "endorsed" nor "endorsed_by_instructor"
             // it will make tests pass now, endorsed is for topics, endorsed_by_instructor is for posts
+            // Check if the property is not Anonymous
             if (prop !== 'endorsed' && prop !== 'endorsed_by_Instructor' && prop !== 'type' && prop !== 'groups' && prop !== 'isAnonymous') {
                 assert(schema[prop], `"${prop}" was found in response, but is not defined in schema (path: ${method} ${path}, context: ${context})`);
             }

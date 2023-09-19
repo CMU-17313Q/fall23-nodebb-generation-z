@@ -152,7 +152,9 @@ module.exports = function (Topics) {
                         isAnonymous: postObj.isAnonymous,
                     };
                     postObj.uid = -1;
+                    // showes everybody EXCEPT the perosn who wrote it that they are anonymus
                 }
+                
             }
         });
 
@@ -330,6 +332,7 @@ module.exports = function (Topics) {
         const uniquePids = _.uniq(_.flatten(arrayOfReplyPids));
 
         let replyData = await posts.getPostsFields(uniquePids, ['pid', 'uid', 'isAnonymous', 'timestamp']);
+        // Checks if any of the replies are anonymous when retriving
         const result = await plugins.hooks.fire('filter:topics.getPostReplies', {
             uid: callerUid,
             replies: replyData,
@@ -365,6 +368,7 @@ module.exports = function (Topics) {
                         currentData.users.push(uidMap[replyData.uid]);
                         uidsUsed[replyData.uid] = true;
                     }
+                    // if they user is not Anonymuos then the user is shown
                 }
             });
 
