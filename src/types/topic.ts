@@ -18,6 +18,7 @@ export type TopicObjectCoreProperties = {
   unreplied: boolean;
   icons: string[];
   endorsed: boolean;
+  // adding type attribute as a string.
   type: string;
 };
 

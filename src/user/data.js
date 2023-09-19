@@ -8,6 +8,8 @@ const db = require('../database');
 const meta = require('../meta');
 const plugins = require('../plugins');
 const utils = require('../utils');
+// importing Groups to use the function
+// Groups.getUserGroupMembership('groups:visible:createtime', uid) to get groups of a user.
 const Groups = require('../groups');
 
 const relative_path = nconf.get('relative_path');
@@ -20,6 +22,7 @@ const intFields = [
 ];
 
 module.exports = function (User) {
+    // added groupOptions at the end of this list to get all groups that the current user is a part of
     const fieldWhitelist = [
         'uid', 'username', 'userslug', 'email', 'email:confirmed', 'joindate', 'accounttype',
         'lastonline', 'picture', 'icon:bgColor', 'fullname', 'location', 'birthday', 'website',
@@ -82,8 +85,12 @@ module.exports = function (User) {
                 user.oldUid = uniqueUids[index];
             }
         });
+        // getting the groups of the user using a function defined in "src/groups/usr.js" file.
         result.users.forEach(async (user) => {
             const groups = await Groups.getUserGroupMembership('groups:visible:createtime', [user.uid]);
+            // getting rid of spaces in the group names to handle the dropdown values
+            // not getting rid of spaces, would result in the secind word being cutoff from the dropdown's
+            // selected value.
             const modifiedGroups = groups[0].map(group => group.replace(/\s+/g, ''));
             user.groups = modifiedGroups;
         });
