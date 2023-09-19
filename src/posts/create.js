@@ -19,6 +19,7 @@ module.exports = function (Posts) {
         const content = data.content.toString();
         const timestamp = data.timestamp || Date.now();
         const isMain = data.isMain || false;
+        // Added type const that takes in the "type" value from data (selected value from dropdown)
         const type = String(data.type);
         if (!uid && parseInt(uid, 10) !== 0) {
             throw new Error('[[error:invalid-uid]]');
@@ -37,6 +38,7 @@ module.exports = function (Posts) {
             content: content,
             timestamp: timestamp,
             endorsed_by_Instructor: false,
+            // assigned type attribute to be the const type
             type: type,
         };
 
