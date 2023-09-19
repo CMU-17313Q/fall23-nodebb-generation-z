@@ -9,39 +9,35 @@ import { Network } from './types';
 
 let postSharing: Network[] | null = null;
 
-export async function getPostSharing(): Promise<Network[]> {
-    if (postSharing) {
-        return _.cloneDeep(postSharing);
-    }
+let networks: Network[] = [
+    {
+        id: 'facebook',
+        name: 'Facebook',
+        class: 'fa-facebook',
+        activated: null,
+    },
+    {
+        id: 'twitter',
+        name: 'Twitter',
+        class: 'fa-twitter',
+        activated: null,
+    },
+];
 
-    let networks: Network[] = [
-        {
-            id: 'facebook',
-            name: 'Facebook',
-            class: 'fa-facebook',
-            activated: null,
-        },
-        {
-            id: 'twitter',
-            name: 'Twitter',
-            class: 'fa-twitter',
-            activated: null,
-        },
-    ];
+networks = await plugins.hooks.fire('filter:social.posts', networks) as Network[];
 
-    networks = await plugins.hooks.fire('filter:social.posts', networks) as Network[];
+// The next line calls a function in a module that has not been updated to TS yet
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+const activated: string[] = await db.getSetMembers('social:posts.activated') as string[];
 
-    // The next line calls a function in a module that has not been updated to TS yet
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    const activated: string[] = await db.getSetMembers('social:posts.activated') as string[];
+networks.forEach((network) => {
+    network.activated = activated.includes(network.id);
+});
 
-    networks.forEach((network) => {
-        network.activated = activated.includes(network.id);
-    });
-
-    postSharing = networks;
+postSharing = networks;
     return _.cloneDeep(networks);
-}
+
+
 
 export async function getActivePostSharing(): Promise<Network[]> {
     const networks: Network[] = await getPostSharing();

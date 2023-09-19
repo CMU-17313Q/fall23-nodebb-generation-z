@@ -37,7 +37,7 @@ module.exports = function (Posts) {
             uid: uid,
             tid: tid,
             isAnonymous: isAnonymous,
-            // assigning the value of the isAnonymous variable to the isAnonymous property of the postData object. 
+            // assigning the value of the isAnonymous variable to the isAnonymous property of the postData object.
             content: content,
             timestamp: timestamp,
             endorsed_by_Instructor: false,

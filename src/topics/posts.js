@@ -154,7 +154,6 @@ module.exports = function (Topics) {
                     postObj.uid = -1;
                     // showes everybody EXCEPT the perosn who wrote it that they are anonymus
                 }
-                
             }
         });
 
