@@ -22,6 +22,7 @@ module.exports = function (Posts) {
             posts: postData,
             fields: fields,
         });
+        console.log(result);
         result.posts.forEach(post => modifyPost(post, fields));
         return result.posts;
     };

@@ -90,6 +90,11 @@ define('forum/topic/postTools', [
 
         handleSelectionTooltip();
 
+        //  Catch the actual click using the defined function
+        postContainer.on('click', '[component ="post/endorse"]', function () {
+            onEndorseClicked($(this), tid);
+        });
+
         postContainer.on('click', '[component="post/quote"]', function () {
             onQuoteClicked($(this), tid);
         });
@@ -98,9 +103,19 @@ define('forum/topic/postTools', [
             onReplyClicked($(this), tid);
         });
 
+        //  Catch the actual click using the defined function
+        postContainer.on('click', '[component ="post/endorse"]', function () {
+            onEndorseClicked($(this), tid);
+        });
+
         $('.topic').on('click', '[component="topic/reply"]', function (e) {
             e.preventDefault();
             onReplyClicked($(this), tid);
+        });
+
+        $('.topic').on('click', '[component="topic/endorse"]', function (e) {
+            e.preventDefault();
+            onEndorseClicked($(this), tid);
         });
 
         $('.topic').on('click', '[component="topic/reply-as-topic"]', function () {
@@ -315,6 +330,33 @@ define('forum/topic/postTools', [
 
                 quote(post);
             });
+        });
+    }
+
+    //  Ansync Function to help us with the Click of Endorsed
+    async function onEndorseClicked(button, tid) {
+        const selectedNode = await getSelectedNode();
+        showStaleWarning(async function () {
+            let username = await getUserSlug(button);
+            if (getData(button, 'data-uid') === '0' || !getData(button, 'data-userslug')) {
+                username = '';
+            }
+            const toPid = button.is('[component="post/endorse"]') ? getData(button, 'data-pid') : null;
+            const isQuoteToPid = !toPid || !selectedNode.pid || toPid === selectedNode.pid;
+            if (selectedNode.text && isQuoteToPid) {
+                username = username || selectedNode.username;
+                //  Update the endorsed_by_Instructor and use a hook to
+                //  Fire this action
+                hooks.fire('action:composer.addQuote', {
+                    tid: tid,
+                    pid: toPid,
+                    topicName: ajaxify.data.titleRaw,
+                    username: username,
+                    text: selectedNode.text,
+                    selectedPid: selectedNode.pid,
+                    endorse_by_Instructor: true,
+                });
+            }
         });
     }
 

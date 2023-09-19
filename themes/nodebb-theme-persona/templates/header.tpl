@@ -11,7 +11,9 @@
         var app = {
             user: JSON.parse('{{userJSON}}')
         };
+
     </script>
+    
 
     {{{if useCustomHTML}}}
     {{customHTML}}
