@@ -176,7 +176,9 @@ module.exports = function (Categories) {
                     displayname: 'anon',
                     isAnonymous: topic.isAnonymous,
                 };
+                // comment
                 topic.uid = -1;
+                // another comment
             }
         });
     };
