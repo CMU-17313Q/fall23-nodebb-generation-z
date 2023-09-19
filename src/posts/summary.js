@@ -55,7 +55,6 @@ module.exports = function (Posts) {
             post.timestampISO = utils.toISOString(post.timestamp);
             // checking if the post type is public
             post.isPublic = post.type === "Public";
-            console.log(post.type);
         });
 
         posts = posts.filter(post => tidToTopic[post.tid]);
