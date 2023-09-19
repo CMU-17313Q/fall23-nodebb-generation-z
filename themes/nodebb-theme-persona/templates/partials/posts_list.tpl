@@ -1,7 +1,7 @@
 <ul component="posts" class="posts-list" data-nextstart="{nextStart}">
     {{{each posts}}}
         {{{if !../isPublic}}}
-        <!-- IMPORT partials/posts_list_item.tpl -->
+            <!-- IMPORT partials/posts_list_item.tpl -->
         {{{end}}}
     {{{end}}}
 </ul>
