@@ -195,6 +195,7 @@ module.exports = function (Posts) {
         const editPostData = {
             content: data.content,
             editor: data.uid,
+            isAnonymous: data.isAnonymous, // indicate whether the post being edited should remain anonymous
         };
 
         // For posts in scheduled topics, if edited before, use edit timestamp
