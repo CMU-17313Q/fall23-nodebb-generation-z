@@ -170,6 +170,16 @@ module.exports = function (Categories) {
                 topic.noAnchor = true;
                 topic.tags = [];
             }
+            if (topic.isAnonymous === 'true') {
+                topic.user = {
+                    username: 'anon',
+                    displayname: 'anon',
+                    isAnonymous: topic.isAnonymous,
+                };
+                // if the user selected anonymous then the username and the displayed name will be anon
+                topic.uid = -1;
+                // the id will also be hidden
+            }
         });
     };
 
