@@ -16,6 +16,8 @@ module.exports = function (Posts) {
         // This is an internal method, consider using Topics.reply instead
         const { uid } = data;
         const { tid } = data;
+        const { isAnonymous } = data;
+        //  variable isAnonymous will hold the value of the isAnonymous property from the data object
         const content = data.content.toString();
         const timestamp = data.timestamp || Date.now();
         const isMain = data.isMain || false;
@@ -35,6 +37,8 @@ module.exports = function (Posts) {
             pid: pid,
             uid: uid,
             tid: tid,
+            isAnonymous: isAnonymous,
+            // assigning the value of the isAnonymous variable to the isAnonymous property of the postData object.
             content: content,
             timestamp: timestamp,
             endorsed_by_Instructor: false,
