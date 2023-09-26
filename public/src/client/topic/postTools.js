@@ -90,6 +90,11 @@ define('forum/topic/postTools', [
 
         handleSelectionTooltip();
 
+        //  Catch the actual click using the defined function
+        postContainer.on('click', '[component ="post/endorse"]', function () {
+            onEndorseClicked($(this), tid);
+        });
+
         postContainer.on('click', '[component="post/quote"]', function () {
             onQuoteClicked($(this), tid);
         });
