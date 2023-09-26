@@ -108,6 +108,11 @@ define('forum/topic/postTools', [
             onReplyClicked($(this), tid);
         });
 
+        $('.topic').on('click', '[component="topic/endorse"]', function (e) {
+            e.preventDefault();
+            onEndorseClicked($(this), tid);
+        });
+
         $('.topic').on('click', '[component="topic/reply-as-topic"]', function () {
             translator.translate('[[topic:link_back, ' + ajaxify.data.titleRaw + ', ' + config.relative_path + '/topic/' + ajaxify.data.slug + ']]', function (body) {
                 hooks.fire('action:composer.topic.new', {
@@ -116,6 +121,33 @@ define('forum/topic/postTools', [
                 });
             });
         });
+
+         //  Ansync Function to help us with the Click of Endorsed
+        async function onEndorseClicked(button, tid) {
+            const selectedNode = await getSelectedNode();
+            showStaleWarning(async function () {
+                let username = await getUserSlug(button);
+                if (getData(button, 'data-uid') === '0' || !getData(button, 'data-userslug')) {
+                    username = '';
+                }
+                const toPid = button.is('[component="post/endorse"]') ? getData(button, 'data-pid') : null;
+                const isQuoteToPid = !toPid || !selectedNode.pid || toPid === selectedNode.pid;
+                if (selectedNode.text && isQuoteToPid) {
+                    username = username || selectedNode.username;
+                    //  Update the endorsed_by_Instructor and use a hook to
+                    //  Fire this action
+                    hooks.fire('action:composer.addQuote', {
+                        tid: tid,
+                        pid: toPid,
+                        topicName: ajaxify.data.titleRaw,
+                        username: username,
+                        text: selectedNode.text,
+                        selectedPid: selectedNode.pid,
+                        endorse_by_Instructor: true,
+                    });
+                }
+            });
+         }
 
         postContainer.on('click', '[component="post/bookmark"]', function () {
             return bookmarkPost($(this), getData($(this), 'data-pid'));
