@@ -51,6 +51,9 @@
 
 <div class="content" component="post/content" itemprop="text">
     {posts.content}
+    {{{ if posts.endorsed_by_Instructor }}}
+       <p style="text-align: right; color: blue;">This response has been Endorsed !</p>
+    {{{ end }}}
 </div>
 
 <div class="post-footer">
