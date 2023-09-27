@@ -19,6 +19,7 @@ define('forum/topic/postTools', [
     PostTools.init = function (tid) {
         staleReplyAnyway = false;
 
+        // Load Session Storage when the page loads
         const postEndorseText = getTextFromLocalStorage('postEndorseText');
         if (postEndorseText) {
             $('[component="post/endorse"]').text(postEndorseText);
@@ -38,9 +39,11 @@ define('forum/topic/postTools', [
 
         PostTools.updatePostCount(ajaxify.data.postcount);
     };
+    // Function to set the endorse messageText in local storage
     function setTextInLocalStorage(key, text) {
         sessionStorage.setItem(key, text);
     }
+    // Getter function to fetch the endorse messageText from local storage
     function getTextFromLocalStorage(key) {
         return sessionStorage.getItem(key);
     }
@@ -52,9 +55,11 @@ define('forum/topic/postTools', [
                 return;
             }
 
+            // Get endorsement message from session storage
             const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
-            console.log(topicEndorseText);
+            // If message is not empty
             if (topicEndorseText) {
+                // Append it to the viewport object
                 $('[component="topic/endorse"]').text(topicEndorseText);
             }
             const postEl = $this.parents('[data-pid]');
