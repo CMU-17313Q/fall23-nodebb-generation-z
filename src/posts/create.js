@@ -16,8 +16,9 @@ module.exports = function (Posts) {
         // This is an internal method, consider using Topics.reply instead
         const { uid } = data;
         const { tid } = data;
-        const { isAnonymous } = data;
-        //  variable isAnonymous will hold the value of the isAnonymous property from the data object
+        //  variable isAnonymous will hold the value of the anonymous property from the data object
+        // (value from the checkbox)
+        const isAnonymous = data.anonymous;
         const content = data.content.toString();
         const timestamp = data.timestamp || Date.now();
         const isMain = data.isMain || false;
