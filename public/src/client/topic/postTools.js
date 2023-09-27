@@ -23,7 +23,6 @@ define('forum/topic/postTools', [
         if (postEndorseText) {
             $('[component="post/endorse"]').text(postEndorseText);
         }
-        
         const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
         if (topicEndorseText) {
             $('[component="topic/endorse"]').text(topicEndorseText);
@@ -38,12 +37,9 @@ define('forum/topic/postTools', [
         votes.addVoteHandler();
 
         PostTools.updatePostCount(ajaxify.data.postcount);
-        
     };
-    
     function setTextInLocalStorage(key, text) {
         sessionStorage.setItem(key, text);
-  
     }
     function getTextFromLocalStorage(key) {
         return sessionStorage.getItem(key);
@@ -118,12 +114,9 @@ define('forum/topic/postTools', [
         //  Catch the actual click using the defined function
         postContainer.on('click', '[component ="post/endorse"]', function () {
             onEndorseClicked($(this), tid);
-            var message = "Someone thinks this is a good response(0)"
-
+            var message = 'Someone thinks this is a good response(0)';
             $(this).text(message);
             const storageKey = 'postEndorseText';
-            // localStorage.setItem(storageKey, text);
-            // console.log("Text set in local storage");
             setTextInLocalStorage(storageKey, message);
         });
 
@@ -143,7 +136,7 @@ define('forum/topic/postTools', [
         $('.topic').on('click', '[component="topic/endorse"]', function (e) {
             e.preventDefault();
             onEndorseClicked($(this), tid);
-            var message = "Someone thinks this is a good response(0)"
+            var message = 'Someone thinks this is a good response(0)';
             const storageKey = 'topicEndorseText';
             setTextInLocalStorage(storageKey, message);
         });
@@ -157,19 +150,16 @@ define('forum/topic/postTools', [
             });
         });
 
-         //  Ansync Function to help us with the Click of Endorsed
+        //  Ansync Function to help us with the Click of Endorsed
         async function onEndorseClicked(button, tid) {
             const selectedNode = await getSelectedNode();
-            console.log("Button Clicked");
-            var message = "Someone thinks this is a good response"
             showStaleWarning(async function () {
                 let username = await getUserSlug(button);
                 if (getData(button, 'data-uid') === '0' || !getData(button, 'data-userslug')) {
                     username = '';
                 }
                 const toPid = button.is('[component="post/endorse"]') ? getData(button, 'data-pid') : null;
-                const isQuoteToPid = !toPid || !selectedNode.pid || toPid === selectedNode.pid;
-                if (true) {
+                if (toPid) {
                     username = username || selectedNode.username;
                     //  Update the endorsed_by_Instructor and use a hook to
                     //  Fire this action
@@ -184,7 +174,7 @@ define('forum/topic/postTools', [
                     });
                 }
             });
-         }
+        }
 
         postContainer.on('click', '[component="post/bookmark"]', function () {
             return bookmarkPost($(this), getData($(this), 'data-pid'));
