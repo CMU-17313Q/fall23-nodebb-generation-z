@@ -166,18 +166,15 @@ describe('Post\'s', () => {
     it('should update isAnonymous attribute of the post object properly', async () => {
         const anon = await user.create({ username: 'anonymous' });
         // creating a post with "isAnonymous" assigned to true
-        const post = await posts.create({ uid: anon, cid: cid, title: 'anonymous', content: 'anonymous post', anonymous:true});
-        const pid = post.pid;
-        const uid = post.uid;
+        const post = await posts.create({ uid: anon, cid: cid, title: 'anonymous', content: 'anonymous post', anonymous: true });
         // getting the created post object from the database
-        const res = await posts.getPostData(pid);
+        const res = await posts.getPostData(post.pid);
         // getting topicData associated to the new post from the database
         const topicData = await topics.addPostData([res], anon);
         // making sure the displayname of the post's user changes to anonymous
-        assert.equal(topicData[0].user.displayname,"anonymous");
+        assert.equal(topicData[0].user.displayname, 'anonymous');
         // making sure the isAnonymous attribute is updated to true
-        assert.equal(res.isAnonymous,"true");
-
+        assert.equal(res.isAnonymous, 'true');
     });
 
     // testcase for attribute "type" of the post object, makes sure "type" attribute is updated
@@ -185,13 +182,11 @@ describe('Post\'s', () => {
     it('should update type attribute of the post object properly', async () => {
         const anon = await user.create({ username: 'anonymous' });
         // creating a post with "type" assigned to true
-        const post = await posts.create({ uid: anon, cid: cid, title: 'public', content: 'Public post', type:"Public"});
-        const pid = post.pid;
+        const post = await posts.create({ uid: anon, cid: cid, title: 'public', content: 'Public post', type: 'Public' });
         // getting the created post object from the database
-        const res = await posts.getPostData(pid);
+        const res = await posts.getPostData(post.pid);
         // making sure the type attribute is updated to "Public"
-        assert.equal(res.type,"Public");
-
+        assert.equal(res.type, 'Public');
     });
 
 
