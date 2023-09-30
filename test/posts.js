@@ -161,6 +161,28 @@ describe('Post\'s', () => {
         });
     });
 
+    // testcase for attribute "isAnonymous" of the post object, makes sure "isAnonymous" attribute is updated
+    // properly when a post is created
+    it('should update isAnonymous attribute of the post object properly', async () => {
+        const anon = await user.create({ username: 'anonymous' });
+        // creating a post with "isAnonymous" assigned to true
+        const post = await posts.create({ uid: anon, cid: cid, title: 'anonymous', content: 'anonymous post', anonymous:true});
+        const pid = post.pid;
+        const uid = post.uid;
+        // getting the created post object from the database
+        const res = await posts.getPostData(pid);
+        // getting topicData associated to the new post from the database
+        const topicData = await topics.addPostData([res], anon);
+        // making sure the displayname of the post's user changes to anonymous
+        assert.equal(topicData[0].user.displayname,"anonymous");
+        // making sure the isAnonymous attribute is updated to true
+        assert.equal(res.isAnonymous,"true");
+
+    });
+
+
+
+
     describe('voting', () => {
         it('should fail to upvote post if group does not have upvote permission', async () => {
             await privileges.categories.rescind(['groups:posts:upvote', 'groups:posts:downvote'], cid, 'registered-users');
