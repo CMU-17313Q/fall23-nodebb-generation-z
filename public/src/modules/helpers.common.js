@@ -333,6 +333,12 @@ module.exports = function (utils, Benchpress, relative_path) {
             return '<img ' + attributes.join(' ') + ' src="' + userObj.picture + '" style="' + styles.join(' ') + '" />';
         }
 
+        // if user is anonymous, use empty icon
+        if (userObj.isAnonymous) {
+            styles.push('background-color: #606060;');
+            return '<span ' + attributes.join(' ') + ' style="' + styles.join(' ') + '"><i class="fa fa-user"></i></span>';
+        }
+
         styles.push('background-color: ' + userObj['icon:bgColor'] + ';');
         return '<span ' + attributes.join(' ') + ' style="' + styles.join(' ') + '">' + userObj['icon:text'] + '</span>';
     }
