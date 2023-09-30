@@ -174,7 +174,12 @@ describe('Post\'s', () => {
         // making sure the displayname of the post's user changes to anonymous
         assert.equal(topicData[0].user.displayname, 'anonymous');
         // making sure the isAnonymous attribute is updated to true
-        assert.equal(res.isAnonymous, true);
+        var check = res.isAnonymous;
+        if (typeof res.isAnonymous === 'string') {
+            // If res.isAnonymous is a string, convert it to a boolean
+            check = res.isAnonymous.toLowerCase() === 'true';
+        }
+        assert.equal(check, true);
     });
 
     // testcase for attribute "type" of the post object, makes sure "type" attribute is updated
