@@ -185,7 +185,7 @@ describe('Post\'s', () => {
     it('should update type attribute of the post object properly', async () => {
         const anon = await user.create({ username: 'anonymous' });
         // creating a post with "type" assigned to true
-        const post = await posts.create({ uid: anon, cid: cid, title: 'anonymous', content: 'anonymous post', type:"Public"});
+        const post = await posts.create({ uid: anon, cid: cid, title: 'public', content: 'Public post', type:"Public"});
         const pid = post.pid;
         // getting the created post object from the database
         const res = await posts.getPostData(pid);
