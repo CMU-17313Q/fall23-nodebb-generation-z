@@ -180,7 +180,19 @@ describe('Post\'s', () => {
 
     });
 
+    // testcase for attribute "type" of the post object, makes sure "type" attribute is updated
+    // properly when a post is created
+    it('should update type attribute of the post object properly', async () => {
+        const anon = await user.create({ username: 'anonymous' });
+        // creating a post with "type" assigned to true
+        const post = await posts.create({ uid: anon, cid: cid, title: 'anonymous', content: 'anonymous post', type:"Public"});
+        const pid = post.pid;
+        // getting the created post object from the database
+        const res = await posts.getPostData(pid);
+        // making sure the type attribute is updated to "Public"
+        assert.equal(res.type,"Public");
 
+    });
 
 
     describe('voting', () => {
