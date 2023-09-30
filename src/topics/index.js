@@ -71,6 +71,7 @@ Topics.getTopicsByTids = async function (tids, options) {
         const topics = await Topics.getTopicsData(tids);
         const uids = _.uniq(topics.map(t => t && t.uid && t.uid.toString()).filter(v => utils.isNumber(v)));
         const cids = _.uniq(topics.map(t => t && t.cid && t.cid.toString()).filter(v => utils.isNumber(v)));
+        // getting mainPids associated to each topic
         const pids = _.uniq(topics.map(t => t && t.mainPid && t.mainPid.toString()).filter(v => utils.isNumber(v)));
         const guestTopics = topics.filter(t => t && t.uid === 0);
 
@@ -93,6 +94,7 @@ Topics.getTopicsByTids = async function (tids, options) {
 
         const [teasers, postData, users, userSettings, categoriesData, guestHandles, thumbs] = await Promise.all([
             Topics.getTeasers(topics, options),
+            // using the pids to get the isAnonymous attribute of main post of topic object
             posts.getPostsFields(pids, ['isAnonymous']),
             user.getUsersFields(uids, ['uid', 'username', 'fullname', 'userslug', 'reputation', 'postcount', 'picture', 'signature', 'banned', 'status']),
             loadShowfullnameSettings(),
@@ -111,6 +113,7 @@ Topics.getTopicsByTids = async function (tids, options) {
         return {
             topics,
             teasers,
+            // postsMap joins the pids to their isAnonymous attribute
             postsMap: _.zipObject(pids, postData),
             usersMap: _.zipObject(uids, users),
             categoriesMap: _.zipObject(cids, categoriesData),
@@ -131,6 +134,7 @@ Topics.getTopicsByTids = async function (tids, options) {
     result.topics.forEach((topic, i) => {
         if (topic) {
             topic.thumbs = result.thumbs[i];
+            //adding the isAnonymous attribute of the post object to topicData
             topic.isAnonymous = result.postsMap[topic.mainPid].isAnonymous === 'true';
             topic.category = result.categoriesMap[topic.cid];
             topic.user = topic.uid ? result.usersMap[topic.uid] : { ...result.usersMap[topic.uid] };
@@ -146,6 +150,7 @@ Topics.getTopicsByTids = async function (tids, options) {
                 Math.max(1, topic.postcount + 2 - bookmarks[i]) :
                 Math.min(topic.postcount, bookmarks[i] + 1);
             topic.unreplied = !topic.teaser;
+            // if topic's main post is anonymous, then the isAnonymous attribute of the topic's user turns true.
             if (topic.isAnonymous && !topic.isOwner) {
                 // topic.user.displayname = "anon";
                 topic.user.isAnonymous = true;
