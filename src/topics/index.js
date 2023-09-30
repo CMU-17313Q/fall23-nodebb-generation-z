@@ -134,7 +134,7 @@ Topics.getTopicsByTids = async function (tids, options) {
     result.topics.forEach((topic, i) => {
         if (topic) {
             topic.thumbs = result.thumbs[i];
-            //adding the isAnonymous attribute of the post object to topicData
+            // adding the isAnonymous attribute of the post object to topicData
             topic.isAnonymous = result.postsMap[topic.mainPid].isAnonymous === 'true';
             topic.category = result.categoriesMap[topic.cid];
             topic.user = topic.uid ? result.usersMap[topic.uid] : { ...result.usersMap[topic.uid] };
