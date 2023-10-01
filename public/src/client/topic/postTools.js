@@ -19,16 +19,6 @@ define('forum/topic/postTools', [
     PostTools.init = function (tid) {
         staleReplyAnyway = false;
 
-        // Load Session Storage when the page loads
-        const postEndorseText = getTextFromLocalStorage('postEndorseText');
-        if (postEndorseText) {
-            $('[component="post/endorse"]').text(postEndorseText);
-        }
-        const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
-        if (topicEndorseText) {
-            $('[component="topic/endorse"]').text(topicEndorseText);
-        }
-
         renderMenu();
 
         addPostHandlers(tid);
@@ -39,14 +29,7 @@ define('forum/topic/postTools', [
 
         PostTools.updatePostCount(ajaxify.data.postcount);
     };
-    // Function to set the endorse messageText in local storage
-    function setTextInLocalStorage(key, text) {
-        sessionStorage.setItem(key, text);
-    }
-    // Getter function to fetch the endorse messageText from local storage
-    function getTextFromLocalStorage(key) {
-        return sessionStorage.getItem(key);
-    }
+    
     function renderMenu() {
         $('[component="topic"]').on('show.bs.dropdown', '.moderator-tools', function () {
             const $this = $(this);
@@ -55,13 +38,6 @@ define('forum/topic/postTools', [
                 return;
             }
 
-            // Get endorsement message from session storage
-            const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
-            // If message is not empty
-            if (topicEndorseText) {
-                // Append it to the viewport object
-                $('[component="topic/endorse"]').text(topicEndorseText);
-            }
             const postEl = $this.parents('[data-pid]');
             const pid = postEl.attr('data-pid');
             const index = parseInt(postEl.attr('data-index'), 10);
@@ -116,15 +92,6 @@ define('forum/topic/postTools', [
 
         handleSelectionTooltip();
 
-        //  Catch the actual click using the defined function
-        postContainer.on('click', '[component ="post/endorse"]', function () {
-            onEndorseClicked($(this), tid);
-            var message = 'Someone thinks this is a good response(0)';
-            $(this).text(message);
-            const storageKey = 'postEndorseText';
-            setTextInLocalStorage(storageKey, message);
-        });
-
         postContainer.on('click', '[component="post/quote"]', function () {
             onQuoteClicked($(this), tid);
         });
@@ -138,14 +105,6 @@ define('forum/topic/postTools', [
             onReplyClicked($(this), tid);
         });
 
-        $('.topic').on('click', '[component="topic/endorse"]', function (e) {
-            e.preventDefault();
-            onEndorseClicked($(this), tid);
-            var message = 'Someone thinks this is a good response(0)';
-            const storageKey = 'topicEndorseText';
-            setTextInLocalStorage(storageKey, message);
-        });
-
         $('.topic').on('click', '[component="topic/reply-as-topic"]', function () {
             translator.translate('[[topic:link_back, ' + ajaxify.data.titleRaw + ', ' + config.relative_path + '/topic/' + ajaxify.data.slug + ']]', function (body) {
                 hooks.fire('action:composer.topic.new', {
@@ -154,32 +113,6 @@ define('forum/topic/postTools', [
                 });
             });
         });
-
-        //  Ansync Function to help us with the Click of Endorsed
-        async function onEndorseClicked(button, tid) {
-            const selectedNode = await getSelectedNode();
-            showStaleWarning(async function () {
-                let username = await getUserSlug(button);
-                if (getData(button, 'data-uid') === '0' || !getData(button, 'data-userslug')) {
-                    username = '';
-                }
-                const toPid = button.is('[component="post/endorse"]') ? getData(button, 'data-pid') : null;
-                if (toPid) {
-                    username = username || selectedNode.username;
-                    //  Update the endorsed_by_Instructor and use a hook to
-                    //  Fire this action
-                    hooks.fire('action:composer.topic.addQuote', {
-                        tid: tid,
-                        pid: toPid,
-                        topicName: ajaxify.data.titleRaw,
-                        username: username,
-                        text: selectedNode.text,
-                        selectedPid: selectedNode.pid,
-                        endorsed: true,
-                    });
-                }
-            });
-        }
 
         postContainer.on('click', '[component="post/bookmark"]', function () {
             return bookmarkPost($(this), getData($(this), 'data-pid'));
