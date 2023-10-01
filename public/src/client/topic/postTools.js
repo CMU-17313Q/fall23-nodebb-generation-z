@@ -29,7 +29,7 @@ define('forum/topic/postTools', [
 
         PostTools.updatePostCount(ajaxify.data.postcount);
     };
-    
+
     function renderMenu() {
         $('[component="topic"]').on('show.bs.dropdown', '.moderator-tools', function () {
             const $this = $(this);
@@ -37,7 +37,6 @@ define('forum/topic/postTools', [
             if (dropdownMenu.html()) {
                 return;
             }
-
             const postEl = $this.parents('[data-pid]');
             const pid = postEl.attr('data-pid');
             const index = parseInt(postEl.attr('data-index'), 10);
@@ -85,7 +84,6 @@ define('forum/topic/postTools', [
         utils.makeNumbersHumanReadable(postCountEl);
         navigator.setCount(postCount);
     };
-
 
     function addPostHandlers(tid) {
         const postContainer = components.get('topic');
