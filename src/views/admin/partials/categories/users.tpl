@@ -17,6 +17,6 @@
             <li role="presentation"><a href="#" data-priv="mods" class="<!-- IF users.privileges.mods -->active<!-- ENDIF users.privileges.mods -->">Moderator</a></li>
         </ul>
     </div>
-    <img src="{users.picture}" alt="" /> {users.username}
+    <img src="{users.picture}" alt="" /> {users.accounttype}
 </li>
 <!-- END users -->
