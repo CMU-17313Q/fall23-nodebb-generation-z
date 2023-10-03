@@ -7,7 +7,7 @@ const user = require('../user');
 const meta = require('../meta');
 const groups = require('../groups');
 const plugins = require('../plugins');
-const helpers = require('./helpers');``
+const helpers = require('./helpers');
 
 const privsUsers = module.exports;
 
