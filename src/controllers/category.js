@@ -81,6 +81,7 @@ categoryController.get = async function (req, res, next) {
         query: req.query,
         tag: req.query.tag,
         targetUid: targetUid,
+        userType: userData.accounttype;
     });
     if (!categoryData) {
         return next();
@@ -122,6 +123,8 @@ categoryController.get = async function (req, res, next) {
     categoryData.showTopicTools = userPrivileges.editable;
     categoryData.topicIndex = topicIndex;
     categoryData.rssFeedUrl = `${url}/category/${categoryData.cid}.rss`;
+    categoryData.userType = userData.accounttype;
+
     if (parseInt(req.uid, 10)) {
         categories.markAsRead([cid], req.uid);
         categoryData.rssFeedUrl += `?uid=${req.uid}&token=${rssToken}`;
