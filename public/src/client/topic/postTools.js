@@ -41,14 +41,7 @@ define('forum/topic/postTools', [
 
         PostTools.updatePostCount(ajaxify.data.postcount);
     };
-    // Function to set the endorse messageText in local storage
-    function setTextInLocalStorage(key, text) {
-        sessionStorage.setItem(key, text);
-    }
-    // Getter function to fetch the endorse messageText from local storage
-    function getTextFromLocalStorage(key) {
-        return sessionStorage.getItem(key);
-    }
+
     function renderMenu() {
         $('[component="topic"]').on('show.bs.dropdown', '.moderator-tools', function () {
             const $this = $(this);
@@ -57,13 +50,6 @@ define('forum/topic/postTools', [
                 return;
             }
 
-            // Get endorsement message from session storage
-            const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
-            // If message is not empty
-            if (topicEndorseText) {
-                // Append it to the viewport object
-                $('[component="topic/endorse"]').text(topicEndorseText);
-            }
             const postEl = $this.parents('[data-pid]');
             const pid = postEl.attr('data-pid');
             const index = parseInt(postEl.attr('data-index'), 10);
@@ -121,10 +107,6 @@ define('forum/topic/postTools', [
         //  Catch the actual click using the defined function
         postContainer.on('click', '[component ="post/endorse"]', function () {
             onEndorseClicked($(this), tid);
-            var message = 'Someone thinks this is a good response(0)';
-            $(this).text(message);
-            const storageKey = 'postEndorseText';
-            setTextInLocalStorage(storageKey, message);
         });
 
         postContainer.on('click', '[component="post/quote"]', function () {
@@ -143,9 +125,6 @@ define('forum/topic/postTools', [
         $('.topic').on('click', '[component="topic/endorse"]', function (e) {
             e.preventDefault();
             onEndorseClicked($(this), tid);
-            var message = 'Someone thinks this is a good response(0)';
-            const storageKey = 'topicEndorseText';
-            setTextInLocalStorage(storageKey, message);
         });
 
         $('.topic').on('click', '[component="topic/reply-as-topic"]', function () {
@@ -159,6 +138,15 @@ define('forum/topic/postTools', [
 
         //  Ansync Function to help us with the Click of Endorsed
         async function onEndorseClicked(button, tid) {
+            //try-catch block to adhere to existing asynchronous models
+            const topic_id = tid;
+            try{
+                await db.setObjectField(`topic:${topic_id}`, 'endorsed_by_Instructor', true);
+                //Testing purposes only
+                console.log("Success");
+            } catch (err){
+                console.log(err);
+            }
             const selectedNode = await getSelectedNode();
             showStaleWarning(async function () {
                 let username = await getUserSlug(button);
