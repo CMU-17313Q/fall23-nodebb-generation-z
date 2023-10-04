@@ -21,16 +21,6 @@ define('forum/topic/postTools', [
     PostTools.init = function (tid) {
         staleReplyAnyway = false;
 
-        // Load Session Storage when the page loads
-        const postEndorseText = getTextFromLocalStorage('postEndorseText');
-        if (postEndorseText) {
-            $('[component="post/endorse"]').text(postEndorseText);
-        }
-        const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
-        if (topicEndorseText) {
-            $('[component="topic/endorse"]').text(topicEndorseText);
-        }
-
         renderMenu();
 
         addPostHandlers(tid);
