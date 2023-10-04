@@ -9,20 +9,20 @@
 
         <div class="col-md-6 col-sm-9 col-xs-10 content">
             <div class="avatar pull-left">
-                <!-- IF showSelect -->
-                <div class="select" component="topic/select">
-                    {{{ if ./thumbs.length }}}
-                    <img src="{./thumbs.0.url}" class="user-img not-responsive" />
-                    {{{ else }}}
-                    <!-- IF topics.isAnonymous -->
-                        {anonymousIcon()}
-                    <!-- ELSE -->
-                        {buildAvatar(../user, "46", true, "not-responsive")}
-                    <!-- ENDIF topics.isAnonymous-->
-                    {{{ end }}}
-                    <i class="fa fa-check"></i>
-                </div>
-                <!-- ENDIF showSelect -->
+                <!-- IF topics.isAnonymous -->
+                    {anonymousIcon()}
+                <!-- ELSE -->
+                    <!-- IF showSelect -->
+                    <div class="select" component="topic/select">
+                        {{{ if ./thumbs.length }}}
+                        <img src="{./thumbs.0.url}" class="user-img not-responsive" />
+                        {{{ else }}}
+                            {buildAvatar(../user, "46", true, "not-responsive")}
+                        {{{ end }}}
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <!-- ENDIF showSelect -->
+                <!-- ENDIF topics.isAnonymous-->
 
                 <!-- IF !showSelect -->
                     <!-- IF !topics.isAnonymous -->
