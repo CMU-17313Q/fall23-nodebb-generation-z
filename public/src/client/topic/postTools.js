@@ -1,5 +1,7 @@
 'use strict';
 
+const db = require('../../../../src/database');
+
 
 define('forum/topic/postTools', [
     'share',
