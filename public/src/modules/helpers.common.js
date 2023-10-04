@@ -336,14 +336,14 @@ module.exports = function (utils, Benchpress, relative_path) {
 
         // if user is anonymous, use empty icon
         if (userObj.isAnonymous) {
-            styles.push('background-color: #606060;');
-            return '<span ' + attributes.join(' ') + ' style="' + styles.join(' ') + '"><i class="fa fa-user"></i></span>';
+            return;
         }
 
         styles.push('background-color: ' + userObj['icon:bgColor'] + ';');
         return '<span ' + attributes.join(' ') + ' style="' + styles.join(' ') + '">' + userObj['icon:text'] + '</span>';
     }
 
+    // function for anonymous icon to display topic-lists
     function anonymousIcon() {
         const styles = [];
         styles.push('color: #100100; text-align: center; line-height: 50px; width: 50px; height: 50px; border-radius: 50%;');
