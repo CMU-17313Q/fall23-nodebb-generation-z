@@ -414,4 +414,14 @@ describe('post uploads management', () => {
             done();
         });
     });
+
+    // added a test case for endorsing a post
+    it('should get the enodorsed_by_Instructor attribute of a post', async () => {
+        const newUid = await user.create({ username: 'newuser' });
+        const post = await posts.create({ uid: newUid, cid: cid, title: 'testing endorsed', content: 'test post' });
+        posts.getPostFields(post.pid, ['endorsed_by_Instructor'], (err, data) => {
+            assert.ifError(err);
+            assert(data.hasOwnProperty('endorsed_by_Instructor'));
+        });
+    });
 });
