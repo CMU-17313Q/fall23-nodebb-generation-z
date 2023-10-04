@@ -14,18 +14,28 @@
                     {{{ if ./thumbs.length }}}
                     <img src="{./thumbs.0.url}" class="user-img not-responsive" />
                     {{{ else }}}
-                    {buildAvatar(../user, "46", true, "not-responsive")}
+                    <!-- IF topics.isAnonymous -->
+                        {anonymousIcon()}
+                    <!-- ELSE -->
+                        {buildAvatar(../user, "46", true, "not-responsive")}
+                    <!-- ENDIF topics.isAnonymous-->
                     {{{ end }}}
                     <i class="fa fa-check"></i>
                 </div>
                 <!-- ENDIF showSelect -->
 
                 <!-- IF !showSelect -->
-                <a href="<!-- IF topics.user.userslug -->{config.relative_path}/user/{topics.user.userslug}<!-- ELSE -->#<!-- ENDIF topics.user.userslug -->" class="pull-left">
+                    <!-- IF !topics.isAnonymous -->
+                        <a href="<!-- IF topics.user.userslug -->{config.relative_path}/user/{topics.user.userslug}<!-- ELSE -->#<!-- ENDIF topics.user.userslug -->" class="pull-left">
+                    <!-- ENDIF !topics.isAnonymous -->
                     {{{ if ./thumbs.length }}}
                     <img src="{./thumbs.0.url}" class="user-img not-responsive" />
                     {{{ else }}}
-                    {buildAvatar(../user, "46", true, "not-responsive")}
+                    <!-- IF topics.isAnonymous -->
+                        {anonymousIcon()}
+                    <!-- ELSE -->
+                        {buildAvatar(../user, "46", true, "not-responsive")}
+                    <!-- ENDIF topics.isAnonymous-->
                     {{{ end }}}
                 </a>
                 <!-- ENDIF !showSelect -->
