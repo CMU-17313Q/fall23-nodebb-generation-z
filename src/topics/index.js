@@ -134,8 +134,6 @@ Topics.getTopicsByTids = async function (tids, options) {
     result.topics.forEach((topic, i) => {
         if (topic) {
             topic.thumbs = result.thumbs[i];
-            // adding the isAnonymous attribute of the post object to topicData
-            topic.isAnonymous = result.postsMap[topic.mainPid].isAnonymous === 'true';
             topic.category = result.categoriesMap[topic.cid];
             topic.user = topic.uid ? result.usersMap[topic.uid] : { ...result.usersMap[topic.uid] };
             if (result.tidToGuestHandle[topic.tid]) {
@@ -144,23 +142,19 @@ Topics.getTopicsByTids = async function (tids, options) {
             }
             topic.teaser = result.teasers[i] || null;
             topic.isOwner = topic.uid === parseInt(uid, 10);
+            // adding the isAnonymous attribute of the post object to topicData
+            topic.isAnonymous = result.postsMap[topic.mainPid].isAnonymous === 'true' && !topic.isOwner;
             topic.ignored = isIgnored[i];
             topic.unread = parseInt(uid, 10) <= 0 || (!hasRead[i] && !isIgnored[i]);
             topic.bookmark = sortNewToOld ?
                 Math.max(1, topic.postcount + 2 - bookmarks[i]) :
                 Math.min(topic.postcount, bookmarks[i] + 1);
             topic.unreplied = !topic.teaser;
-            // if topic's main post is anonymous, then the isAnonymous attribute of the topic's user turns true.
-            if (topic.isAnonymous && !topic.isOwner) {
-                // topic.user.displayname = "anon";
-                topic.user.isAnonymous = true;
-            }
             topic.icons = [];
         }
     });
-
+    
     const filteredTopics = result.topics.filter(topic => topic && topic.category && !topic.category.disabled);
-
     const hookResult = await plugins.hooks.fire('filter:topics.get', { topics: filteredTopics, uid: uid });
     return hookResult.topics;
 };
@@ -232,7 +226,6 @@ Topics.getTopicWithPosts = async function (topicData, set, uid, start, stop, rev
     }
     // If  isAnonymous it sets the user property to an anonymous user object with a username and display name of 'anon',
     // and it also sets the uid property to -1 to indicate that this is an anonymous user.
-
 
     topicData.related = related || [];
     topicData.unreplied = topicData.postcount === 1;
