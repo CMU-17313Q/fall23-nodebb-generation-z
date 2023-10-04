@@ -153,7 +153,6 @@ Topics.getTopicsByTids = async function (tids, options) {
             topic.icons = [];
         }
     });
-    
     const filteredTopics = result.topics.filter(topic => topic && topic.category && !topic.category.disabled);
     const hookResult = await plugins.hooks.fire('filter:topics.get', { topics: filteredTopics, uid: uid });
     return hookResult.topics;
