@@ -334,6 +334,12 @@ module.exports = function (utils, Benchpress, relative_path) {
             return '<img ' + attributes.join(' ') + ' src="' + userObj.picture + '" style="' + styles.join(' ') + '" />';
         }
 
+        // if user is anonymous, use empty icon
+        if (userObj.isAnonymous) {
+            styles.push('background-color: #606060;');
+            return '<span ' + attributes.join(' ') + ' style="' + styles.join(' ') + '"><i class="fa fa-user"></i></span>';
+        }
+
         styles.push('background-color: ' + userObj['icon:bgColor'] + ';');
         return '<span ' + attributes.join(' ') + ' style="' + styles.join(' ') + '">' + userObj['icon:text'] + '</span>';
     }
@@ -341,7 +347,7 @@ module.exports = function (utils, Benchpress, relative_path) {
     function anonymousIcon() {
         const styles = [];
         styles.push('color: #100100; text-align: center; line-height: 50px; width: 50px; height: 50px; border-radius: 50%;');
-        return '<span ' + ' style="' + styles.join(' ') + '"><i class="fa fa-user" style="font-size: 40px;"></i></span>';
+        return '<span style="' + styles.join(' ') + '"><i class="fa fa-user" style="font-size: 40px;"></i></span>';
     }
 
     function register() {
