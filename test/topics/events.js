@@ -102,4 +102,13 @@ describe('Topic Events', () => {
             assert(exists.every(exists => !exists));
         });
     });
+
+    it('should get the endorsed attribute of a topic', async () => {
+        const newUid = await user.create({ username: 'newuser' });
+        const topic = await topics.create({ uid: newUid, cid: 1, title: 'testing endorsed', content: 'test topic' });
+        topics.getTopicFields(topic.pid, ['endorsed'], (err, data) => {
+            assert.ifError(err);
+            assert(data.hasOwnProperty('endorsed'));
+        });
+    });
 });
