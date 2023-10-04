@@ -51,9 +51,6 @@
 
 <div class="content" component="post/content" itemprop="text">
     {posts.content}
-    {{{ if posts.endorsed_by_Instructor }}}
-       <p style="text-align: right; color: blue;">This response has been Endorsed !</p>
-    {{{ end }}}
 </div>
 
 <div class="post-footer">
@@ -82,7 +79,6 @@
     <small class="pull-right">
         <!-- IMPORT partials/topic/reactions.tpl -->
         <span class="post-tools">
-            <a component="post/endorse" href="#" id = "endorseButton" class="no-select <!-- IF !privileges.topics:reply -->hidden<!-- ENDIF !privileges.topics:reply -->">Endorse</a>
             <a component="post/reply" href="#" class="no-select <!-- IF !privileges.topics:reply -->hidden<!-- ENDIF !privileges.topics:reply -->">[[topic:reply]]</a>
             <a component="post/quote" href="#" class="no-select <!-- IF !privileges.topics:reply -->hidden<!-- ENDIF !privileges.topics:reply -->">[[topic:quote]]</a>
         </span>
