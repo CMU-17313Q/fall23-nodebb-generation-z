@@ -20,10 +20,6 @@ define('forum/topic/postTools', [
     PostTools.init = function (tid) {
         staleReplyAnyway = false;
 
-        // Load Session Storage when the page loads
-        const postEndorseText = getTextFromLocalStorage('postEndorseText');
-        if (postEndorseText) {
-            $('[component="post/endorse"]').text(postEndorseText);
 
         renderMenu();
 
@@ -34,6 +30,17 @@ define('forum/topic/postTools', [
         votes.addVoteHandler();
 
         PostTools.updatePostCount(ajaxify.data.postcount);
+        // Load Session Storage when the page loads
+        const postEndorseText = getTextFromLocalStorage('postEndorseText');
+        if (postEndorseText) {
+            $('[component="post/endorse"]').text(postEndorseText);
+        }
+        // Load Endorsement text as soon as menu loads
+        const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
+        if (topicEndorseText) {
+            $('[component="topic/endorse"]').text(topicEndorseText);
+        }
+ 
     };
 
     // Function to set the endorse messageText in local storage
@@ -51,6 +58,10 @@ define('forum/topic/postTools', [
             const dropdownMenu = $this.find('.dropdown-menu');
             if (dropdownMenu.html()) {
                 return;
+            }
+            const postEndorseText = getTextFromLocalStorage('postEndorseText');
+            if (postEndorseText) {
+                $('[component="post/endorse"]').text(postEndorseText);
             }
             // Load Endorsement text as soon as menu loads
             const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
