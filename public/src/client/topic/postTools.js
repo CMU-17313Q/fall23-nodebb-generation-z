@@ -40,9 +40,7 @@ define('forum/topic/postTools', [
         if (topicEndorseText) {
             $('[component="topic/endorse"]').text(topicEndorseText);
         }
- 
     };
-
     // Function to set the endorse messageText in local storage
     function setTextInLocalStorage(key, text) {
         sessionStorage.setItem(key, text);
@@ -126,7 +124,7 @@ define('forum/topic/postTools', [
         //  Catch the actual click using the defined function
         postContainer.on('click', '[component ="post/endorse"]', function () {
             onEndorseClicked($(this), tid);
-            var message = "Someone thinks this is a good response(0)"
+            var message = 'Someone thinks this is a good response(0)';
             $(this).text(message);
             const storageKey = 'postEndorseText';
             // localStorage.setItem(storageKey, text);
@@ -149,8 +147,6 @@ define('forum/topic/postTools', [
         $('.topic').on('click', '[component="topic/endorse"]', function (e) {
             e.preventDefault();
             onEndorseClicked($(this), tid);
-            // Set the new button Message
-            var message = "Someone thinks this is a good response(0)"
         });
 
         $('.topic').on('click', '[component="topic/reply-as-topic"]', function () {
@@ -165,18 +161,17 @@ define('forum/topic/postTools', [
         //  Ansync Function to help us with the Click of Endorsed
         async function onEndorseClicked(button, tid) {
             // Fetch request to the designated route in the backend
-            fetch(window.location.href + "/isEndorsed", {
+            fetch(window.location.href + '/isEndorsed', {
                 mathod: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then( res => res.json())
-            .then( data => console.log(data))
-            .catch( err => console.log(err));
-            //Throws an error if there is any
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }).then(res => res.json())
+                .then(data => console.log(data))
+                .catch(err => console.log(err));
+            // Throws an error if there is any
             // Second part of the action of dispatching the associated hook
-            /////////////////////////////////////////////////////
             const selectedNode = await getSelectedNode();
             showStaleWarning(async function () {
                 let username = await getUserSlug(button);
