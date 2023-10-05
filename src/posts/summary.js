@@ -20,7 +20,8 @@ module.exports = function (Posts) {
         options.parse = options.hasOwnProperty('parse') ? options.parse : true;
         options.extraFields = options.hasOwnProperty('extraFields') ? options.extraFields : [];
 
-        const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'replies', 'handle'].concat(options.extraFields);
+        //added another constant field 'type' to check the type of the post
+        const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'replies', 'handle', 'type'].concat(options.extraFields);
 
         let posts = await Posts.getPostsFields(pids, fields);
         posts = posts.filter(Boolean);
@@ -52,6 +53,8 @@ module.exports = function (Posts) {
             post.isMainPost = post.topic && post.pid === post.topic.mainPid;
             post.deleted = post.deleted === 1;
             post.timestampISO = utils.toISOString(post.timestamp);
+            //checks if the post made is public or not to filter the results out
+            post.isPublic = post.type == "Public";
         });
 
         posts = posts.filter(post => tidToTopic[post.tid]);
