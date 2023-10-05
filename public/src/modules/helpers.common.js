@@ -23,7 +23,6 @@ module.exports = function (utils, Benchpress, relative_path) {
         renderDigestAvatar,
         userAgentIcons,
         buildAvatar,
-        anonymousIcon,
         register,
         __escape: identity,
     };
@@ -341,11 +340,6 @@ module.exports = function (utils, Benchpress, relative_path) {
 
         styles.push('background-color: ' + userObj['icon:bgColor'] + ';');
         return '<span ' + attributes.join(' ') + ' style="' + styles.join(' ') + '">' + userObj['icon:text'] + '</span>';
-    }
-
-    // function for anonymous icon to display topic-lists, displays nothing for profile icon
-    function anonymousIcon() {
-        return;
     }
 
     function register() {
