@@ -102,6 +102,7 @@ describe('Topic Events', () => {
             assert(exists.every(exists => !exists));
         });
     });
+    // added a test case for endorsing a topic
 
     it('should get the endorsed attribute of a topic', async () => {
         const newUid = await user.create({ username: 'newuser' });
