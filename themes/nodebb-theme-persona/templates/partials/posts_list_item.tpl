@@ -21,12 +21,21 @@
         {{{ end }}}
 
         <div class="post-info">
+            {{{if !../isAnonymous}}}
             <a href="{config.relative_path}/user/{../user.userslug}">{buildAvatar(../user, "md", true, "user-img not-responsive")}</a>
-
             <div class="post-author">
                 <a href="{config.relative_path}/user/{../user.userslug}">{../user.displayname}</a><br />
                 <span class="timeago" title="{../timestampISO}"></span>
             </div>
+            {{{ end }}}
+
+            {{{if ../isAnonymous}}}
+            <div class="post-author">
+                <a>Posted anonymously..</a><br />
+                <span class="timeago" title="{../timestampISO}"></span>
+            </div>
+            {{{ end }}}
+
         </div>
     </div>
 </li>
