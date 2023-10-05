@@ -20,6 +20,11 @@ define('forum/topic/postTools', [
     PostTools.init = function (tid) {
         staleReplyAnyway = false;
 
+        // Load Session Storage when the page loads
+        const postEndorseText = getTextFromLocalStorage('postEndorseText');
+        if (postEndorseText) {
+            $('[component="post/endorse"]').text(postEndorseText);
+
         renderMenu();
 
         addPostHandlers(tid);
@@ -31,12 +36,26 @@ define('forum/topic/postTools', [
         PostTools.updatePostCount(ajaxify.data.postcount);
     };
 
+    // Function to set the endorse messageText in local storage
+    function setTextInLocalStorage(key, text) {
+        sessionStorage.setItem(key, text);
+    }
+    // Getter function to fetch the endorse messageText from local storage
+    function getTextFromLocalStorage(key) {
+        return sessionStorage.getItem(key);
+    }
+
     function renderMenu() {
         $('[component="topic"]').on('show.bs.dropdown', '.moderator-tools', function () {
             const $this = $(this);
             const dropdownMenu = $this.find('.dropdown-menu');
             if (dropdownMenu.html()) {
                 return;
+            }
+            // Load Endorsement text as soon as menu loads
+            const topicEndorseText = getTextFromLocalStorage('topicEndorseText');
+            if (topicEndorseText) {
+                $('[component="topic/endorse"]').text(topicEndorseText);
             }
 
             const postEl = $this.parents('[data-pid]');
@@ -95,9 +114,12 @@ define('forum/topic/postTools', [
 
         //  Catch the actual click using the defined function
         postContainer.on('click', '[component ="post/endorse"]', function () {
-            // REMOVE
-            console.log('Clicked.....');
             onEndorseClicked($(this), tid);
+            var message = "Someone thinks this is a good response(0)"
+            $(this).text(message);
+            const storageKey = 'postEndorseText';
+            // localStorage.setItem(storageKey, text);
+            setTextInLocalStorage(storageKey, message);
         });
 
         postContainer.on('click', '[component="post/quote"]', function () {
@@ -116,6 +138,8 @@ define('forum/topic/postTools', [
         $('.topic').on('click', '[component="topic/endorse"]', function (e) {
             e.preventDefault();
             onEndorseClicked($(this), tid);
+            // Set the new button Message
+            var message = "Someone thinks this is a good response(0)"
         });
 
         $('.topic').on('click', '[component="topic/reply-as-topic"]', function () {
@@ -129,7 +153,6 @@ define('forum/topic/postTools', [
 
         //  Ansync Function to help us with the Click of Endorsed
         async function onEndorseClicked(button, tid) {
-            console.log('Button CLicked....');
             // Fetch request to the designated route in the backend
             fetch(window.location.href + "/isEndorsed", {
                 mathod: 'GET',
@@ -140,9 +163,8 @@ define('forum/topic/postTools', [
             }).then( res => res.json())
             .then( data => console.log(data))
             .catch( err => console.log(err));
-            // Testing purposes only 
-            console.log('Finished Fetching');
-
+            //Throws an error if there is any
+            // Second part of the action of dispatching the associated hook
             /////////////////////////////////////////////////////
             const selectedNode = await getSelectedNode();
             showStaleWarning(async function () {
