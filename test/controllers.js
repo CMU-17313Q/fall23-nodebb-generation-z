@@ -937,6 +937,7 @@ describe('Controllers', () => {
                     title: 'topic title',
                     content: 'test topic content',
                     cid: cid,
+                    // added the type in the post
                     type: 'group-details',
                 }, (err) => {
                     assert.ifError(err);
