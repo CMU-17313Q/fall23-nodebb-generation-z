@@ -96,6 +96,8 @@ define('forum/topic/postTools', [
 
         //  Catch the actual click using the defined function
         postContainer.on('click', '[component ="post/endorse"]', function () {
+            // REMOVE
+            console.log("Clicked.....");
             onEndorseClicked($(this), tid);
         });
 
@@ -128,13 +130,17 @@ define('forum/topic/postTools', [
 
         //  Ansync Function to help us with the Click of Endorsed
         async function onEndorseClicked(button, tid) {
-            //try-catch block to adhere to existing asynchronous models
+            console.log("Button CLicked....");
+            // try-catch block to adhere to existing asynchronous models
             const topic_id = tid;
-            try{
-                await db.setObjectField(`topic:${topic_id}`, 'endorsed_by_Instructor', true);
-                //Testing purposes only
-                console.log("Success");
-            } catch (err){
+            console.log(topic_tid);
+            try {
+                // Update the DB field endorsed of the this post
+                await db.setObjectField(`topic:${topic_id}`, 'endorsed', true);
+                // Testing purposes only
+                console.log('Success');
+            } catch (err) {
+                // Or log to the console any errors encountered otherwise
                 console.log(err);
             }
             const selectedNode = await getSelectedNode();

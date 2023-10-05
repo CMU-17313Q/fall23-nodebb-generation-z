@@ -58,6 +58,8 @@ _mounts.globalMod = (app, middleware, controllers) => {
 _mounts.topic = (app, name, middleware, controllers) => {
     setupPageRoute(app, `/${name}/:topic_id/:slug/:post_index?`, [], controllers.topics.get);
     setupPageRoute(app, `/${name}/:topic_id/:slug?`, [], controllers.topics.get);
+    // Set up a route to handle endorse requests
+    setupPageRoute(app, `/${name}/:topic_id/:slug/isEndorsed`, [], controllers.topics.topicIsEndorsed);
 };
 
 _mounts.post = (app, name, middleware, controllers) => {

@@ -3,6 +3,8 @@
 const nconf = require('nconf');
 const qs = require('querystring');
 
+// Import the DB object to allow us to use it
+const db = require('../database');
 const user = require('../user');
 const meta = require('../meta');
 const topics = require('../topics');
@@ -122,6 +124,26 @@ topicsController.get = async function getTopic(req, res, next) {
 
     res.render('topic', topicData);
 };
+
+// Set up a whole new controller to update the DB when called upon
+topicsController.topicIsEndorsed = async function (req, res){
+    // Use a try-catch block to adhere to the existing async models
+    try {
+        // Get the topic ID
+        const topic_id = req.params.topic_id;
+        // Asynchronously try to update the field in the DB
+        await db.setObjectField(`topic: ${topic_id}`, 'endorsed_by_Instrucor', true);
+        // Use the get route to receive data related to post 
+        const ret = await topicsController.get(req, req.params);
+        // Dispatch the appropriate API Response
+        helpers.formatApiResponse(200, res, ret);
+    } catch (err) {
+        // Log to the console any errors we get and dispatch the
+        // relevant API response
+        helpers.formatApiResponse(500, res, {err: 'Unable to update DB field'});
+    }
+
+}
 
 function generateQueryString(query) {
     const qString = qs.stringify(query);
