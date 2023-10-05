@@ -937,9 +937,16 @@ describe('Controllers', () => {
                     title: 'topic title',
                     content: 'test topic content',
                     cid: cid,
+                    type: 'group-details',
                 }, (err) => {
                     assert.ifError(err);
-                    done();
+                    request(`${nconf.get('url')}/api/groups/group-details`, { json: true }, (err, res, body) => {
+                        assert.ifError(err);
+                        assert.equal(res.statusCode, 200);
+                        assert(body);
+                        assert.equal(body.posts[0].content, 'test topic content');
+                        done();
+                    });
                 });
             });
         });
