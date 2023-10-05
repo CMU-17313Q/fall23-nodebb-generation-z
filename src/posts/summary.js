@@ -20,8 +20,9 @@ module.exports = function (Posts) {
         options.parse = options.hasOwnProperty('parse') ? options.parse : true;
         options.extraFields = options.hasOwnProperty('extraFields') ? options.extraFields : [];
 
-        // added another constant field 'type' to check the type of the post
-        const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'replies', 'handle', 'type'].concat(options.extraFields);
+        // added field 'type' to check the type of the post and isAnonymous to track anonymity of the post
+        const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted',
+            'upvotes', 'downvotes', 'replies', 'handle', 'type', 'isAnonymous'].concat(options.extraFields);
 
         let posts = await Posts.getPostsFields(pids, fields);
         posts = posts.filter(Boolean);
@@ -53,6 +54,8 @@ module.exports = function (Posts) {
             post.isMainPost = post.topic && post.pid === post.topic.mainPid;
             post.deleted = post.deleted === 1;
             post.timestampISO = utils.toISOString(post.timestamp);
+            // tracking if the post is anonymous
+            post.isAnonymous = post.isAnonymous === 'true';
         });
 
         posts = posts.filter(post => tidToTopic[post.tid]);
