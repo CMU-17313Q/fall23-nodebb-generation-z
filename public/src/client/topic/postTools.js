@@ -1,6 +1,5 @@
 'use strict';
 
-const db = require('../../../../src/database');
 
 
 define('forum/topic/postTools', [
@@ -97,7 +96,7 @@ define('forum/topic/postTools', [
         //  Catch the actual click using the defined function
         postContainer.on('click', '[component ="post/endorse"]', function () {
             // REMOVE
-            console.log("Clicked.....");
+            console.log('Clicked.....');
             onEndorseClicked($(this), tid);
         });
 
@@ -130,19 +129,20 @@ define('forum/topic/postTools', [
 
         //  Ansync Function to help us with the Click of Endorsed
         async function onEndorseClicked(button, tid) {
-            console.log("Button CLicked....");
-            // try-catch block to adhere to existing asynchronous models
-            const topic_id = tid;
-            console.log(topic_tid);
-            try {
-                // Update the DB field endorsed of the this post
-                await db.setObjectField(`topic:${topic_id}`, 'endorsed', true);
-                // Testing purposes only
-                console.log('Success');
-            } catch (err) {
-                // Or log to the console any errors encountered otherwise
-                console.log(err);
-            }
+            console.log('Button CLicked....');
+            // Fetch request to the designated route in the backend
+            fetch(window.location.href + "/isEndorsed", {
+                mathod: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then( res => res.json())
+            .then( data => console.log(data))
+            .catch( err => console.log(err));
+            // Testing purposes only 
+            console.log('Finished Fetching');
+
             const selectedNode = await getSelectedNode();
             showStaleWarning(async function () {
                 let username = await getUserSlug(button);
