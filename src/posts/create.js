@@ -18,7 +18,7 @@ module.exports = function (Posts) {
         const { tid } = data;
         //  variable isAnonymous will hold the value of the anonymous property from the data object
         // (value from the checkbox)
-        const isAnonymous = data.anonymous;
+        const { isAnonymous } = data;
         const content = data.content.toString();
         const timestamp = data.timestamp || Date.now();
         const isMain = data.isMain || false;

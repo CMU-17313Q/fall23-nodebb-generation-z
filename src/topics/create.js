@@ -19,7 +19,6 @@ module.exports = function (Topics) {
     Topics.create = async function (data) {
         // This is an internal method, consider using Topics.post instead
         const timestamp = data.timestamp || Date.now();
-
         const tid = await db.incrObjectField('global', 'nextTid');
         // added the endorsed attribute to the front end
         let topicData = {

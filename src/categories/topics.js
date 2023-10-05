@@ -158,7 +158,6 @@ module.exports = function (Categories) {
         if (!Array.isArray(topics) || !topics.length || privileges.view_deleted) {
             return;
         }
-
         topics.forEach((topic) => {
             if (!topic.scheduled && topic.deleted && !topic.isOwner) {
                 topic.title = '[[topic:topic_is_deleted]]';
@@ -170,7 +169,7 @@ module.exports = function (Categories) {
                 topic.noAnchor = true;
                 topic.tags = [];
             }
-            if (topic.isAnonymous === 'true') {
+            if (topic.isAnonymous === 'true' && privileges.uid !== topic.uid) {
                 topic.user = {
                     username: 'anon',
                     displayname: 'anon',
