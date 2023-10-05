@@ -20,7 +20,7 @@ module.exports = function (Posts) {
         options.parse = options.hasOwnProperty('parse') ? options.parse : true;
         options.extraFields = options.hasOwnProperty('extraFields') ? options.extraFields : [];
 
-        //added another constant field 'type' to check the type of the post
+        // added another constant field 'type' to check the type of the post
         const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'replies', 'handle', 'type'].concat(options.extraFields);
 
         let posts = await Posts.getPostsFields(pids, fields);
