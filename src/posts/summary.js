@@ -20,7 +20,8 @@ module.exports = function (Posts) {
         options.parse = options.hasOwnProperty('parse') ? options.parse : true;
         options.extraFields = options.hasOwnProperty('extraFields') ? options.extraFields : [];
 
-        const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'replies', 'handle'].concat(options.extraFields);
+        // added another constant field 'type' to check the type of the post
+        const fields = ['pid', 'tid', 'content', 'uid', 'timestamp', 'deleted', 'upvotes', 'downvotes', 'replies', 'handle', 'type'].concat(options.extraFields);
 
         let posts = await Posts.getPostsFields(pids, fields);
         posts = posts.filter(Boolean);

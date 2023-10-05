@@ -68,6 +68,8 @@ groupsController.details = async function (req, res, next) {
         }),
         groups.getLatestMemberPosts(groupName, 10, req.uid),
     ]);
+    // filtering posts by type of post - public or for a specific group.
+    const filteredPosts = posts.filter(post => post.type.replace(/\s+/g, '').toLowerCase() === groupData.name.replace(/\s+/g, '').toLowerCase());
     if (!groupData) {
         return next();
     }
@@ -76,7 +78,8 @@ groupsController.details = async function (req, res, next) {
     res.render('groups/details', {
         title: `[[pages:group, ${groupData.displayName}]]`,
         group: groupData,
-        posts: posts,
+        // posts rendered are the filtered posts
+        posts: filteredPosts,
         isAdmin: isAdmin,
         isGlobalMod: isGlobalMod,
         allowPrivateGroups: meta.config.allowPrivateGroups,
