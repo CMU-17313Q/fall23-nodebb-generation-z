@@ -53,8 +53,6 @@ module.exports = function (Posts) {
             post.isMainPost = post.topic && post.pid === post.topic.mainPid;
             post.deleted = post.deleted === 1;
             post.timestampISO = utils.toISOString(post.timestamp);
-            //checks if the post made is public or not to filter the results out
-            post.isPublic = post.type == "Public";
         });
 
         posts = posts.filter(post => tidToTopic[post.tid]);
