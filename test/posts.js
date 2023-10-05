@@ -161,16 +161,6 @@ describe('Post\'s', () => {
         });
     });
 
-    // added a test case for checking if "isAnonymous" field is present in a post object
-    it('should get the isAnonymous attribute of a post', async () => {
-        const newUid = await user.create({ username: 'newuser' });
-        const post = await posts.create({ uid: newUid, cid: cid, title: 'testing type', content: 'test post' });
-        posts.getPostFields(post.pid, ['isAnonymous'], (err, data) => {
-            assert.ifError(err);
-            assert(data.hasOwnProperty('isAnonymous'));
-        });
-    });
-
     // testcase for attribute "isAnonymous" of the post object, makes sure "isAnonymous" attribute is updated
     // properly when a post is created
     it('should update isAnonymous attribute of the post object properly', async () => {
@@ -190,16 +180,6 @@ describe('Post\'s', () => {
             check = res.isAnonymous.toLowerCase() === 'true';
         }
         assert.equal(check, true);
-    });
-
-    // added a test case for checking if "type" field is present in a post object
-    it('should get the type attribute of a post', async () => {
-        const newUid = await user.create({ username: 'newuser' });
-        const post = await posts.create({ uid: newUid, cid: cid, title: 'testing type', content: 'test post' });
-        posts.getPostFields(post.pid, ['type'], (err, data) => {
-            assert.ifError(err);
-            assert(data.hasOwnProperty('type'));
-        });
     });
 
     // testcase for attribute "type" of the post object, makes sure "type" attribute is updated
