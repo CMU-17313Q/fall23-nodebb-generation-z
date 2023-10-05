@@ -51,8 +51,10 @@
 
 <div class="content" component="post/content" itemprop="text">
     {posts.content}
+    <div><button id = "endorsing">Endorse</button></div>
     {{{ if posts.endorsed_by_Instructor }}}
        <p style="text-align: right; color: blue;">This response has been Endorsed !</p>
+       
     {{{ end }}}
 </div>
 
@@ -107,4 +109,24 @@
     </small>
     </div>
     <div component="post/replies/container"></div>
+    <div>
+    <script>
+        const button = document.getElementById("endorsing");
+        button.addEventListener("click", function(){
+            console.log('Button CLicked....');
+            // Fetch request to the designated route in the backend
+            fetch(window.location.href + "/isEndorsed", {
+                mathod: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then( res => res.json())
+            .then( data => console.log(data))
+            .catch( err => console.log(err));
+            // Testing purposes only 
+            console.log('Finished Fetching');
+        })
+    </script>
+    </div>
 </div>

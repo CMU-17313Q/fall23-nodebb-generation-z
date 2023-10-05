@@ -143,6 +143,7 @@ define('forum/topic/postTools', [
             // Testing purposes only 
             console.log('Finished Fetching');
 
+            /////////////////////////////////////////////////////
             const selectedNode = await getSelectedNode();
             showStaleWarning(async function () {
                 let username = await getUserSlug(button);
