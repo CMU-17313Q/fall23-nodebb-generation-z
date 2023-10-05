@@ -10,7 +10,7 @@ This user story can be tested out through creating at least 2 users on the local
 
 - ***Automated test cases:***
 	- We first tested if the "type" attribute is present for the post object, and if it is updated to the type that is given as an argument for the post.create function. We tested it this way, because there is no way to mimic the action of selecting a type in the composer form using a testcase. The testcase can be found in this file ->  from lines .
-	- We also modified a testcase in the test/controllers.js that checks if correct posts are being displayed in the group page or not. Here, I added the attribute "type" to the post being craeted and type was same as group's name. Hence, the test post with the correct group name was displayed in the group' page indicating that our filtration of groups by attribute "type" in group's controller works appropriately. The testcase can be found in this file -> test/posts.js from lines 195 -216.
+	- We also modified a testcase in the test/controllers.js that checks if correct posts are being displayed in the group page or not. Here, I added the attribute "type" to the post being craeted and type was same as group's name. Hence, the test post with the correct group name was displayed in the group' page indicating that our filtration of groups by attribute "type" in group's controller works appropriately. The testcase can be found in this file -> test/posts.js from lines 188 -208.
 
 **Feature 2:**
 - As a student, I want to make anonymous posts, so that I can ask question without any fear of judgement.
@@ -21,7 +21,7 @@ This feature can be tested out through creating at least 2 users on the local se
 - ***Automated test cases:***
 	- We first tested if the "isAnonymous" attribute is present for the post object, and if it is updated to be true if its given as a true argument for the post.create function. We tested it this way, because there is no way to mimic the action of checking the checkbox to post anonymously in the composer form using a testcase. 
 	- We also tested in the same testcase, that the displayname of the user is indeed updated to be "anonymous" when the isAnonymous field is true.
-	- Both these tests were done in the same test case. The testcase can be found in this file -> test/posts.js from lines 164- 193.
+	- Both these tests were done in the same test case. The testcase can be found in this file -> test/posts.js from lines 164- 185.
 
 Incomplete features:
 
