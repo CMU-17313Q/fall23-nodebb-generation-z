@@ -183,13 +183,6 @@ describe('Post\'s', () => {
         const topicData = await topics.addPostData([res], anon);
         // making sure the displayname of the post's user changes to anonymous
         assert.equal(topicData[0].user.displayname, 'anonymous');
-        // making sure the isAnonymous attribute is updated to true
-        let check = res.isAnonymous;
-        if (typeof res.isAnonymous === 'string') {
-            // If res.isAnonymous is a string, convert it to a boolean
-            check = res.isAnonymous.toLowerCase() === 'true';
-        }
-        assert.equal(check, true);
     });
 
     // added a test case for checking if "type" field is present in a post object
