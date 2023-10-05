@@ -161,6 +161,59 @@ describe('Post\'s', () => {
         });
     });
 
+    // added a test case for checking if "isAnonymous" field is present in a post object
+    it('should get the isAnonymous attribute of a post', async () => {
+        const newUid = await user.create({ username: 'newuser' });
+        const post = await posts.create({ uid: newUid, cid: cid, title: 'testing type', content: 'test post' });
+        posts.getPostFields(post.pid, ['isAnonymous'], (err, data) => {
+            assert.ifError(err);
+            assert(data.hasOwnProperty('isAnonymous'));
+        });
+    });
+
+    // testcase for attribute "isAnonymous" of the post object, makes sure "isAnonymous" attribute is updated
+    // properly when a post is created
+    it('should update isAnonymous attribute of the post object properly', async () => {
+        const anon = await user.create({ username: 'anonymous' });
+        // creating a post with "isAnonymous" assigned to true
+        const post = await posts.create({ uid: anon, cid: cid, title: 'anonymous', content: 'anonymous post', anonymous: true });
+        // getting the created post object from the database
+        const res = await posts.getPostData(post.pid);
+        // getting topicData associated to the new post from the database
+        const topicData = await topics.addPostData([res], anon);
+        // making sure the displayname of the post's user changes to anonymous
+        assert.equal(topicData[0].user.displayname, 'anonymous');
+        // making sure the isAnonymous attribute is updated to true
+        let check = res.isAnonymous;
+        if (typeof res.isAnonymous === 'string') {
+            // If res.isAnonymous is a string, convert it to a boolean
+            check = res.isAnonymous.toLowerCase() === 'true';
+        }
+        assert.equal(check, true);
+    });
+
+    // added a test case for checking if "type" field is present in a post object
+    it('should get the type attribute of a post', async () => {
+        const newUid = await user.create({ username: 'newuser' });
+        const post = await posts.create({ uid: newUid, cid: cid, title: 'testing type', content: 'test post' });
+        posts.getPostFields(post.pid, ['type'], (err, data) => {
+            assert.ifError(err);
+            assert(data.hasOwnProperty('type'));
+        });
+    });
+
+    // testcase for attribute "type" of the post object, makes sure "type" attribute is updated
+    // properly when a post is created
+    it('should update type attribute of the post object properly', async () => {
+        const anon = await user.create({ username: 'anonymous' });
+        // creating a post with "type" assigned to true
+        const post = await posts.create({ uid: anon, cid: cid, title: 'public', content: 'Public post', type: 'Public' });
+        // getting the created post object from the database
+        const res = await posts.getPostData(post.pid);
+        // making sure the type attribute is updated to "Public"
+        assert.equal(res.type, 'Public');
+    });
+
     describe('voting', () => {
         it('should fail to upvote post if group does not have upvote permission', async () => {
             await privileges.categories.rescind(['groups:posts:upvote', 'groups:posts:downvote'], cid, 'registered-users');
