@@ -62,7 +62,7 @@ module.exports = function (User) {
         const uniqueUids = _.uniq(uids).filter(uid => uid > 0);
 
         const results = await plugins.hooks.fire('filter:user.whitelistFields', {
-            uids: uids,
+            uids,
             whitelist: fieldWhitelist.slice(),
         });
         if (!fields.length) {
@@ -72,13 +72,11 @@ module.exports = function (User) {
             fields = fields.filter(value => value !== 'password');
         }
 
-
-
         const users = await db.getObjectsFields(uniqueUids.map(uid => `user:${uid}`), fields);
         const result = await plugins.hooks.fire('filter:user.getFields', {
             uids: uniqueUids,
-            users: users,
-            fields: fields,
+            users,
+            fields,
         });
         result.users.forEach((user, index) => {
             if (uniqueUids[index] > 0 && !user.uid) {
@@ -365,7 +363,7 @@ module.exports = function (User) {
 
     async function incrDecrUserFieldBy(uid, field, value, type) {
         const newValue = await db.incrObjectFieldBy(`user:${uid}`, field, value);
-        plugins.hooks.fire('action:user.set', { uid: uid, field: field, value: newValue, type: type });
+        plugins.hooks.fire('action:user.set', { uid, field, value: newValue, type });
         return newValue;
     }
 };

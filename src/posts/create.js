@@ -13,7 +13,7 @@ const utils = require('../utils');
 
 module.exports = function (Posts) {
     Posts.create = async function (data) {
-        // This is an internal method, consider using Topics.reply instead
+    // This is an internal method, consider using Topics.reply instead
         const { uid } = data;
         const { tid } = data;
         //  variable isAnonymous will hold the value of the anonymous property from the data object
@@ -35,16 +35,16 @@ module.exports = function (Posts) {
         // added a new boolean to the data scheme, endorsed_by_Instructor
         const pid = await db.incrObjectField('global', 'nextPid');
         let postData = {
-            pid: pid,
-            uid: uid,
-            tid: tid,
-            isAnonymous: isAnonymous,
+            pid,
+            uid,
+            tid,
+            isAnonymous,
             // assigning the value of the isAnonymous variable to the isAnonymous property of the postData object.
-            content: content,
-            timestamp: timestamp,
+            content,
+            timestamp,
             endorsed_by_Instructor: false,
             // assigned type attribute to be the const type
-            type: type,
+            type,
         };
 
         if (data.toPid) {
@@ -57,7 +57,7 @@ module.exports = function (Posts) {
             postData.handle = data.handle;
         }
 
-        let result = await plugins.hooks.fire('filter:post.create', { post: postData, data: data });
+        let result = await plugins.hooks.fire('filter:post.create', { post: postData, data });
         postData = result.post;
         await db.setObject(`post:${postData.pid}`, postData);
 
