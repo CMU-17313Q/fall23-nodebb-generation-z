@@ -42,7 +42,7 @@ function find_compiled_js() {
     }
     
     module.exports = {
-        extends: ["nodebb", "prettier"],
+        extends: ["nodebb"],
         root: true,
         ignorePatterns: find_compiled_js(),
         rules: {
