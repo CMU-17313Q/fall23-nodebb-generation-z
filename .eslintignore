@@ -16,6 +16,7 @@ logs/
 /coverage
 /build
 .eslintrc
+.prettierrc
 test/files
 *.min.js
 
