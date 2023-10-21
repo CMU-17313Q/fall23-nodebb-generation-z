@@ -44,9 +44,10 @@ profileController.get = async function (req, res, next) {
         delete userData.reputation;
     }
 
-    userData.posts = latestPosts; // for backwards compat.
-    userData.latestPosts = latestPosts;
-    userData.bestPosts = bestPosts;
+    // filtering posts out that are not anonymous
+    userData.posts = latestPosts.filter(post => post.isAnonymous !== true);
+    userData.latestPosts = latestPosts.filter(post => post.isAnonymous !== true);
+    userData.bestPosts = bestPosts.filter(post => post.isAnonymous !== true);
     userData.breadcrumbs = helpers.buildBreadcrumbs([{ text: userData.username }]);
     userData.title = userData.username;
     userData.allowCoverPicture = !userData.isSelf || !!meta.config['reputation:disabled'] || userData.reputation >= meta.config['min:rep:cover-picture'];
