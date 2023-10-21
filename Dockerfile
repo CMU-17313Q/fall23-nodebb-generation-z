@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y jq
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
 
-COPY --chown=node:node install/package.json /usr/src/app/package.json
+COPY --chown=node:node package.json.docker /usr/src/app/package.json
 
 USER node
 
