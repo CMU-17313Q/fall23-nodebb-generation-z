@@ -22,7 +22,7 @@ groupsController.list = async function (req, res) {
 
     res.render('groups/list', {
         groups: groupData,
-        allowGroupCreation: allowGroupCreation,
+        allowGroupCreation,
         nextStart: 15,
         title: '[[pages:groups]]',
         breadcrumbs: helpers.buildBreadcrumbs([{ text: '[[pages:groups]]' }]),
@@ -80,8 +80,8 @@ groupsController.details = async function (req, res, next) {
         group: groupData,
         // posts rendered are the filtered posts
         posts: filteredPosts,
-        isAdmin: isAdmin,
-        isGlobalMod: isGlobalMod,
+        isAdmin,
+        isGlobalMod,
         allowPrivateGroups: meta.config.allowPrivateGroups,
         breadcrumbs: helpers.buildBreadcrumbs([{ text: '[[pages:groups]]', url: '/groups' }, { text: groupData.displayName }]),
     });
@@ -116,8 +116,8 @@ groupsController.members = async function (req, res, next) {
 
     const pageCount = Math.max(1, Math.ceil(groupData.memberCount / usersPerPage));
     res.render('groups/members', {
-        users: users,
+        users,
         pagination: pagination.create(page, pageCount, req.query),
-        breadcrumbs: breadcrumbs,
+        breadcrumbs,
     });
 };
