@@ -1,0 +1,12 @@
+{
+    "node": true,
+    "esversion": 9,  // set to ECMAScript 2018 (or ES9)
+    "curly": true,
+    "eqeqeq": true,
+    "undef": true,
+    "globals": {
+        "console": true,
+        "module": true
+    },
+    "indent": 4
+}
