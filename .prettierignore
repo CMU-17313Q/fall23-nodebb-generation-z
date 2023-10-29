@@ -37,6 +37,7 @@ themes/
 .github/workflows/test.yaml
 .github/workflows/volunteers.yaml
 .prettierrc.json
+package.json
 test/
 logs/
 install/
