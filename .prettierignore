@@ -79,6 +79,10 @@ src/socket.io
 src/topics
 src/types
 src/upgrades
+src/posts
+src/meta
+src/widgets
+src/user
 src/UserGuidesrc/views/src/widgets
 src/*.js
 src/*.ts
