@@ -19,6 +19,9 @@ logs/
 test/files
 *.min.js
 
+test/
+webpack.prod.js
+src/database
 /public/src/app.js
 /public/src/client.js
 /public/src/admin/admin.js
