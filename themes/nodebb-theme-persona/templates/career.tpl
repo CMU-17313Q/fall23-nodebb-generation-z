@@ -11,7 +11,7 @@
             Welcome to the careers page! This is a brand new feature added to allow 
             students to connect with various job recruiters.
         </p>
-        This page is still under development.
+        This page is still under development (testing).
     </div>
     <div data-widget-area="sidebar" class="col-lg-3 col-sm-12 <!-- IF !widgets.sidebar.length -->hidden<!-- ENDIF !widgets.sidebar.length -->">
         {{{each widgets.sidebar}}}
