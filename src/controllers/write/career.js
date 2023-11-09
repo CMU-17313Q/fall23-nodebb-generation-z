@@ -3,6 +3,7 @@
 const helpers = require('../helpers');
 const user = require('../../user');
 const db = require('../../database');
+// added axios import
 const axios = require('axios');
 const Career = module.exports;
 
@@ -21,13 +22,16 @@ Career.register = async (req, res) => {
         };
 
         try {
+            // deployed url for the microservice
             const apiUrl = 'https://career-microservice-f474tbkenq-uc.a.run.app/predict';
+            // sending http request to the url
             const response = await axios.get(apiUrl, { params: userCareerData });
+            // getting the prediction based on the response from the http request
             userCareerData.prediction = String(response.data.good_employee);
         } catch (error) {
             console.error('Error while making the HTTP request:', error);
         }
-        console.log(userCareerData)
+        
         await user.setCareerData(req.uid, userCareerData);
         db.sortedSetAdd('users:career', req.uid, req.uid);
         res.json({});
