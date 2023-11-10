@@ -1,10 +1,11 @@
 'use strict';
 
+// added axios import
+const axios = require('axios');
 const helpers = require('../helpers');
 const user = require('../../user');
 const db = require('../../database');
-// added axios import
-const axios = require('axios');
+
 const Career = module.exports;
 
 Career.register = async (req, res) => {
@@ -31,7 +32,7 @@ Career.register = async (req, res) => {
         } catch (error) {
             console.error('Error while making the HTTP request:', error);
         }
-        
+
         await user.setCareerData(req.uid, userCareerData);
         db.sortedSetAdd('users:career', req.uid, req.uid);
         res.json({});
