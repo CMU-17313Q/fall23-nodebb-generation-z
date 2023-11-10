@@ -1,18 +1,7 @@
 FROM python:3.11
-
-WORKDIR /python-microservice
-
-COPY requirements.txt .
-
+WORKDIR /career-microservice
+COPY . /career-microservice
 RUN pip install flask
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
+RUN pip install -r requirements.txt
 EXPOSE 80
-
-ENV PORT 80
-
-ENV HOSTNAME "0.0.0.0"
-
-CMD ["flask", "run", "--host", "0.0.0.0", "--port", "80"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=80"]
