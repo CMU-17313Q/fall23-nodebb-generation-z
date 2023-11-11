@@ -1,5 +1,7 @@
 'use strict';
 
+// added axios import
+const axios = require('axios');
 const helpers = require('../helpers');
 const user = require('../../user');
 const db = require('../../database');
@@ -22,13 +24,11 @@ Career.register = async (req, res) => {
 
         try {
             // deployed url for the microservice
-            const deployedUrl = 'https://career-microservice-f474tbkenq-uc.a.run.app/predict';
+            const apiUrl = 'https://career-microservice-f474tbkenq-uc.a.run.app/predict';
             // sending http request to the url
-            const params = new URLSearchParams(userCareerData);
-            const response = await fetch(`${deployedUrl}?${params}`);
-            const data = await response.json();
+            const response = await axios.get(apiUrl, { params: userCareerData });
             // getting the prediction based on the response from the http request
-            userCareerData.prediction = String(data.good_employee);
+            userCareerData.prediction = String(response.data.good_employee);
         } catch (error) {
             console.error('Error while making the HTTP request:', error);
         }
