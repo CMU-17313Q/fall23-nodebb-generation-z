@@ -20,7 +20,18 @@ Career.register = async (req, res) => {
             num_past_internships: userData.num_past_internships,
         };
 
-        userCareerData.prediction = Math.round(Math.random()); // TODO: Change this line to do call and retrieve actual candidate success prediction from the model instead of using a random number
+        try {
+            // deployed url for the microservice
+            const deployedUrl = 'https://career-microservice-f474tbkenq-uc.a.run.app/predict';
+            // sending http request to the url
+            const params = new URLSearchParams(userCareerData);
+            const response = await fetch(`${deployedUrl}?${params}`);
+            const data = await response.json();
+            // getting the prediction based on the response from the http request
+            userCareerData.prediction = String(data.good_employee);
+        } catch (error) {
+            console.error('Error while making the HTTP request:', error);
+        }
 
         await user.setCareerData(req.uid, userCareerData);
         db.sortedSetAdd('users:career', req.uid, req.uid);
