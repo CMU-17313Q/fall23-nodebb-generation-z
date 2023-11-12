@@ -22,7 +22,7 @@ Career.register = async (req, res) => {
 
         try {
             // deployed url for the microservice
-            const deployedUrl = 'https://career-microservice-f474tbkenq-uc.a.run.app/predict';
+            const deployedUrl = 'https://python-microservice-f474tbkenq-uc.a.run.app/predict';
             // sending http request to the url
             const params = new URLSearchParams(userCareerData);
             const response = await fetch(`${deployedUrl}?${params}`);
