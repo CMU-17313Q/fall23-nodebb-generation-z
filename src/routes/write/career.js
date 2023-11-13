@@ -1,3 +1,6 @@
+
+// this file was created using a friend's help. It sets up the route for career page.
+
 'use strict';
 
 const router = require('express').Router();
